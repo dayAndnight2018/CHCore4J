@@ -1,17 +1,18 @@
 package com.chenghua.extendslite;
 
 import java.util.Random;
-import com.chenghua.exceptions.InValidInputException;
+import com.chenghua.exceptions.InvalidInputException;
 
 public class StringExtends 
 {
+	public static final String EMPTY = "";
+	public static final String ONE_SPACE = " ";
 	/**
 	 * check string is null or whitespace
 	 * @param string
 	 * @return is null or whitespace
 	 */
-	public static boolean isBlank(String string)
-	{
+	public static boolean isBlank(String string) {
 		return string == null || string.trim().isEmpty();
 	}
 	
@@ -21,28 +22,26 @@ public class StringExtends
 	 * @param start start Index
 	 * @param len  the length you want get	
 	 * @return  subString
-	 * @throws InValidInputException(The start index or length is invalid.)
+	 * @throws InvalidInputException(The start index or length is invalid)
 	 */
-	public static String subString(String string,int start, int len) throws InValidInputException
+	public static String subString(String string, int start, int len) throws InvalidInputException
 	{
 		if(isBlank(string))
 		{
 			return null;
 		}
+
 		int length = string.length();
-		
-		if(start < 0 || len <= 0 )
+		if(start < 0 || len <= 0 || start > length)
 		{
-			throw new InValidInputException("The inputs are invalid.");
+			throw new InvalidInputException("The inputs are invalid.");
 		}
-		
 		if(start + len > length)
 		{
 			len = length - start;
 		}
 		
 		return string.substring(start, start + len);
-		
 	}
 	
 	/**
@@ -50,11 +49,11 @@ public class StringExtends
 	 * @param len
 	 * @return random String
 	 */
-	public static String randomDigitString(int len) throws InValidInputException
+	public static String randomDigitString(int len) throws InvalidInputException
 	{
 		if(len <= 0)
 		{
-			throw new InValidInputException("The length of the String is below zero.");
+			throw new InvalidInputException("The length of the String is below zero.");
 		}
 		
 		StringBuilder sb = new StringBuilder();
@@ -73,13 +72,13 @@ public class StringExtends
 	 * random letters
 	 * @param len
 	 * @return Letters String
-	 * @throws InValidInputException(The length of the String is below zero.)
+	 * @throws InvalidInputException(The length of the String is below zero)
 	 */
-	public static String randomLetterString(int len) throws InValidInputException
+	public static String randomLetterString(int len) throws InvalidInputException
 	{
 		if(len <= 0)
 		{
-			throw new InValidInputException("The length of the String is below zero.");
+			throw new InvalidInputException("The length of the String is below zero.");
 		}
 		
 		StringBuilder sb = new StringBuilder();
@@ -98,13 +97,13 @@ public class StringExtends
 	 * random String
 	 * @param len
 	 * @return random String
-	 * @throws InValidInputException(The length of the String is below zero.)
+	 * @throws InvalidInputException(The length of the String is below zero)
 	 */
-	public static String randomString(int len) throws InValidInputException
+	public static String randomString(int len) throws InvalidInputException
 	{
 		if(len <= 0)
 		{
-			throw new InValidInputException("The length of the String is below zero.");
+			throw new InvalidInputException("The length of the String is below zero.");
 		}
 		
 		StringBuilder sb = new StringBuilder();
@@ -124,13 +123,13 @@ public class StringExtends
 	 * @param source source double
 	 * @param digits digits
 	 * @return rounded number String
-	 * @throws InValidInputException(The digits is invalid.)
+	 * @throws InvalidInputException(The digits is invalid)
 	 */
-	public static String round(double source, int digits) throws InValidInputException
+	public static String round(double source, int digits) throws InvalidInputException
 	{
 		if(digits < 0)
 		{
-			throw new InValidInputException();
+			throw new InvalidInputException();
 		}		
 		return String.format("%." + digits + "f", source);
 	}
