@@ -1,6 +1,8 @@
 package com.chenghua.ios;
+
 import com.chenghua.extendslite.StringExtends;
-import java.io.IOException;
+
+import java.io.*;
 import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -11,287 +13,692 @@ import java.util.List;
 
 public class FileUtils {
 
-    public static boolean writeAllText(Path path, List<String> text, Charset charset){
-        if(exist(path) && Files.isDirectory(path)){
-            return false;
-        }
-        if(charset == null){
-            charset = StandardCharsets.UTF_8;
-        }
-        try{
-            Files.write(path,text,charset,StandardOpenOption.CREATE,StandardOpenOption.WRITE,StandardOpenOption.TRUNCATE_EXISTING);
-            return true;
-        } catch (IOException exception) {
-            return false;
-        }
-    }
-
-    public static boolean writeAllText(Path path, List<String> text, Charset charset,boolean append){
-        if(exist(path) && Files.isDirectory(path)){
-            return false;
-        }
-        if(charset == null){
-            charset = StandardCharsets.UTF_8;
-        }
-        if(!append)
-            return writeAllText(path,text,charset);
-        try{
-            Files.write(path,text,charset,StandardOpenOption.CREATE,StandardOpenOption.WRITE,StandardOpenOption.APPEND);
-            return true;
-        } catch (IOException exception) {
-            return false;
-        }
-    }
-
-
-    public static boolean writeAllBytes(Path path, byte[] bytes){
-        if(exist(path) && Files.isDirectory(path)){
-            return false;
-        }
-
-        try{
-            Files.write(path,bytes,StandardOpenOption.CREATE,StandardOpenOption.WRITE,StandardOpenOption.TRUNCATE_EXISTING);
-            return true;
-        } catch (IOException exception) {
-            return false;
-        }
-    }
-
-    public static boolean writeAllBytes(Path path, byte[] bytes, boolean append){
-        if(exist(path) && Files.isDirectory(path)){
-            return false;
-        }
-        if(!append)
-            return writeAllBytes(path,bytes);
-        try{
-            Files.write(path,bytes,StandardOpenOption.CREATE,StandardOpenOption.WRITE,StandardOpenOption.APPEND);
-            return true;
-        } catch (IOException exception) {
-            return false;
-        }
-    }
-
-    public static boolean writeAllText(String path, List<String> text, Charset charset){
-        if(StringExtends.isBlank(path))
-            return false;
-        Path p = Paths.get(path);
-        if(exist(p) && Files.isDirectory(p)){
-            return false;
-        }
-        if(charset == null){
-            charset = StandardCharsets.UTF_8;
-        }
-        try{
-            Files.write(p,text,charset,StandardOpenOption.CREATE,StandardOpenOption.WRITE,StandardOpenOption.TRUNCATE_EXISTING);
-            return true;
-        } catch (IOException exception) {
-            return false;
-        }
-    }
-
-    public static boolean writeAllText(String path, List<String> text, Charset charset,boolean append){
-        if(StringExtends.isBlank(path))
-            return false;
-        Path p = Paths.get(path);
-        if(exist(p) && Files.isDirectory(p)){
-            return false;
-        }
-        if(charset == null){
-            charset = StandardCharsets.UTF_8;
-        }
-        if(!append)
-            return writeAllText(p,text,charset);
-        try{
-            Files.write(p,text,charset,StandardOpenOption.CREATE,StandardOpenOption.WRITE,StandardOpenOption.APPEND);
-            return true;
-        } catch (IOException exception) {
-            return false;
-        }
-    }
-
-
-    public static boolean writeAllBytes(String path, byte[] bytes){
-        if(StringExtends.isBlank(path))
-            return false;
-        Path p = Paths.get(path);
-        if(exist(path) && Files.isDirectory(p)){
-            return false;
-        }
-
-        try{
-            Files.write(p,bytes,StandardOpenOption.CREATE,StandardOpenOption.WRITE,StandardOpenOption.TRUNCATE_EXISTING);
-            return true;
-        } catch (IOException exception) {
-            return false;
-        }
-    }
-
-    public static boolean writeAllBytes(String path, byte[] bytes, boolean append){
-        if(StringExtends.isBlank(path))
-            return false;
-        Path p = Paths.get(path);
-        if(exist(p) && Files.isDirectory(p)){
-            return false;
-        }
-        if(!append)
-            return writeAllBytes(p,bytes);
-        try{
-            Files.write(p,bytes,StandardOpenOption.CREATE,StandardOpenOption.WRITE,StandardOpenOption.APPEND);
-            return true;
-        } catch (IOException exception) {
-            return false;
-        }
-    }
-
-
-    public static List<String> readAllText(Path path, Charset charset){
-        if(!exist(path) || Files.isDirectory(path)){
+    public static BufferedReader openReader(Path path, Charset charset) {
+        if (!exist(path) || Files.isDirectory(path)) {
             return null;
         }
-        if(charset == null){
+        if (charset == null) {
             charset = StandardCharsets.UTF_8;
         }
-        try{
-            return Files.readAllLines(path,charset);
+        try {
+            BufferedReader bfw = Files.newBufferedReader(path, charset);
+            return bfw;
         } catch (IOException exception) {
             return null;
         }
     }
 
-    public static List<String> readAllText(String path, Charset charset){
-        if(StringExtends.isBlank(path))
+    public static BufferedReader openReader(String path, Charset charset) {
+        if (StringExtends.isBlank(path))
             return null;
         Path p = Paths.get(path);
-        if(!exist(p) || Files.isDirectory(p)){
-            return null;
-        }
-        return readAllText(p,charset);
+        return openReader(p,charset);
     }
 
-    public static byte[] readAllBytes(Path path){
-        if(!exist(path) || Files.isDirectory(path)){
+
+    public static BufferedWriter openWriter(Path path) {
+        if (!exist(path) || Files.isDirectory(path)) {
             return null;
         }
-        try{
+
+        try {
+            BufferedWriter bfw = Files.newBufferedWriter(path, StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+            return bfw;
+        } catch (IOException exception) {
+            return null;
+        }
+    }
+
+    public static BufferedWriter openWriter(Path path, boolean append) {
+        if (!exist(path) || Files.isDirectory(path)) {
+            return null;
+        }
+        if (!append)
+            return openWriter(path);
+        try {
+            BufferedWriter bfw = Files.newBufferedWriter(path, StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            return bfw;
+        } catch (IOException exception) {
+            return null;
+        }
+    }
+
+    public static BufferedWriter openWriter(String path) {
+        if (StringExtends.isBlank(path))
+            return null;
+        Path p = Paths.get(path);
+        return openWriter(p);
+    }
+
+    public static BufferedWriter openWriter(String path, boolean append) {
+        if (StringExtends.isBlank(path))
+            return null;
+        Path p = Paths.get(path);
+        return openWriter(p, append);
+    }
+
+
+    public static InputStream openReadStream(Path path) {
+        if (!exist(path) || Files.isDirectory(path)) {
+            return null;
+        }
+
+        try {
+            InputStream ins = Files.newInputStream(path, StandardOpenOption.READ);
+            return ins;
+        } catch (IOException exception) {
+            return null;
+        }
+    }
+
+    public static InputStream openReadStream(String path) {
+        if (StringExtends.isBlank(path))
+            return null;
+        Path p = Paths.get(path);
+        return openReadStream(p);
+    }
+
+    public static OutputStream openWriteStream(Path path) {
+        if (exist(path) && Files.isDirectory(path)) {
+            return null;
+        }
+
+        try {
+            OutputStream ops = Files.newOutputStream(path, StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+            return ops;
+        } catch (IOException exception) {
+            return null;
+        }
+    }
+
+    public static OutputStream openWriteStream(String path) {
+        if (StringExtends.isBlank(path))
+            return null;
+        Path p = Paths.get(path);
+        return openWriteStream(p);
+    }
+
+    public static OutputStream openWriteStream(Path path, boolean append) {
+        if (exist(path) && Files.isDirectory(path)) {
+            return null;
+        }
+        if (!append)
+            return openWriteStream(path);
+        try {
+            OutputStream ops = Files.newOutputStream(path, StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            return ops;
+        } catch (IOException exception) {
+            return null;
+        }
+    }
+
+    public static OutputStream openWriteStream(String path, boolean append) {
+        if (StringExtends.isBlank(path))
+            return null;
+        Path p = Paths.get(path);
+        return openWriteStream(p, append);
+    }
+
+    /**
+     * write text to path with charset sync (for small size of file)
+     *
+     * @param path
+     * @param text
+     * @param charset
+     * @return
+     */
+    public static boolean writeAllText(Path path, List<String> text, Charset charset) {
+        if (exist(path) && Files.isDirectory(path)) {
+            return false;
+        }
+        if (charset == null) {
+            charset = StandardCharsets.UTF_8;
+        }
+        try {
+            Files.write(path, text, charset, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.SYNC);
+            return true;
+        } catch (IOException exception) {
+            return false;
+        }
+    }
+
+    /**
+     * write text to path with charset async  (for small size of file)
+     *
+     * @param path
+     * @param text
+     * @param charset
+     * @return
+     */
+    public static boolean writeAllTextAsync(Path path, List<String> text, Charset charset) {
+        if (exist(path) && Files.isDirectory(path)) {
+            return false;
+        }
+        if (charset == null) {
+            charset = StandardCharsets.UTF_8;
+        }
+        try {
+            Files.write(path, text, charset, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+            return true;
+        } catch (IOException exception) {
+            return false;
+        }
+    }
+
+    /**
+     * append text to path sync (for small size of file)
+     *
+     * @param path
+     * @param text
+     * @param charset
+     * @param append
+     * @return
+     */
+    public static boolean writeAllText(Path path, List<String> text, Charset charset, boolean append) {
+        if (exist(path) && Files.isDirectory(path)) {
+            return false;
+        }
+        if (charset == null) {
+            charset = StandardCharsets.UTF_8;
+        }
+        if (!append)
+            return writeAllText(path, text, charset);
+        try {
+            Files.write(path, text, charset, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.APPEND, StandardOpenOption.SYNC);
+            return true;
+        } catch (IOException exception) {
+            return false;
+        }
+    }
+
+    /**
+     * append text to path async (for small size of file)
+     *
+     * @param path
+     * @param text
+     * @param charset
+     * @param append
+     * @return
+     */
+    public static boolean writeAllTextAsync(Path path, List<String> text, Charset charset, boolean append) {
+        if (exist(path) && Files.isDirectory(path)) {
+            return false;
+        }
+        if (charset == null) {
+            charset = StandardCharsets.UTF_8;
+        }
+        if (!append)
+            return writeAllText(path, text, charset);
+        try {
+            Files.write(path, text, charset, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.APPEND);
+            return true;
+        } catch (IOException exception) {
+            return false;
+        }
+    }
+
+    /**
+     * write bytes to path sync (for small size of file)
+     *
+     * @param path
+     * @param bytes
+     * @return
+     */
+    public static boolean writeAllBytes(Path path, byte[] bytes) {
+        if (exist(path) && Files.isDirectory(path)) {
+            return false;
+        }
+
+        try {
+            Files.write(path, bytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.SYNC);
+            return true;
+        } catch (IOException exception) {
+            return false;
+        }
+    }
+
+    /**
+     * write bytes to path async (for small size of file)
+     *
+     * @param path
+     * @param bytes
+     * @return
+     */
+    public static boolean writeAllBytesAsync(Path path, byte[] bytes) {
+        if (exist(path) && Files.isDirectory(path)) {
+            return false;
+        }
+
+        try {
+            Files.write(path, bytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+            return true;
+        } catch (IOException exception) {
+            return false;
+        }
+    }
+
+    /**
+     * append bytes to path sync (for small size of file)
+     *
+     * @param path
+     * @param bytes
+     * @return
+     */
+    public static boolean writeAllBytes(Path path, byte[] bytes, boolean append) {
+        if (exist(path) && Files.isDirectory(path)) {
+            return false;
+        }
+        if (!append)
+            return writeAllBytes(path, bytes);
+        try {
+            Files.write(path, bytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.APPEND, StandardOpenOption.SYNC);
+            return true;
+        } catch (IOException exception) {
+            return false;
+        }
+    }
+
+    /**
+     * append bytes to path async (for small size of file)
+     *
+     * @param path
+     * @param bytes
+     * @return
+     */
+    public static boolean writeAllBytesAsync(Path path, byte[] bytes, boolean append) {
+        if (exist(path) && Files.isDirectory(path)) {
+            return false;
+        }
+        if (!append)
+            return writeAllBytes(path, bytes);
+        try {
+            Files.write(path, bytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.APPEND);
+            return true;
+        } catch (IOException exception) {
+            return false;
+        }
+    }
+
+    /**
+     * write text to path sync (for small size of file)
+     *
+     * @param path
+     * @param text
+     * @param charset
+     * @return
+     */
+    public static boolean writeAllText(String path, List<String> text, Charset charset) {
+        if (StringExtends.isBlank(path))
+            return false;
+        Path p = Paths.get(path);
+        if (exist(p) && Files.isDirectory(p)) {
+            return false;
+        }
+        if (charset == null) {
+            charset = StandardCharsets.UTF_8;
+        }
+        try {
+            Files.write(p, text, charset, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.SYNC);
+            return true;
+        } catch (IOException exception) {
+            return false;
+        }
+    }
+
+    /**
+     * write text to path async (for small size of file)
+     *
+     * @param path
+     * @param text
+     * @param charset
+     * @return
+     */
+    public static boolean writeAllTextAsync(String path, List<String> text, Charset charset) {
+        if (StringExtends.isBlank(path))
+            return false;
+        Path p = Paths.get(path);
+        if (exist(p) && Files.isDirectory(p)) {
+            return false;
+        }
+        if (charset == null) {
+            charset = StandardCharsets.UTF_8;
+        }
+        try {
+            Files.write(p, text, charset, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+            return true;
+        } catch (IOException exception) {
+            return false;
+        }
+    }
+
+    /**
+     * append text to path sync (for small size of file)
+     *
+     * @param path
+     * @param text
+     * @param charset
+     * @param append
+     * @return
+     */
+    public static boolean writeAllText(String path, List<String> text, Charset charset, boolean append) {
+        if (StringExtends.isBlank(path))
+            return false;
+        Path p = Paths.get(path);
+        if (exist(p) && Files.isDirectory(p)) {
+            return false;
+        }
+        if (charset == null) {
+            charset = StandardCharsets.UTF_8;
+        }
+        if (!append)
+            return writeAllText(p, text, charset);
+        try {
+            Files.write(p, text, charset, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.APPEND, StandardOpenOption.SYNC);
+            return true;
+        } catch (IOException exception) {
+            return false;
+        }
+    }
+
+    /**
+     * append text to path async (for small size of file)
+     *
+     * @param path
+     * @param text
+     * @param charset
+     * @param append
+     * @return
+     */
+    public static boolean writeAllTextAsync(String path, List<String> text, Charset charset, boolean append) {
+        if (StringExtends.isBlank(path))
+            return false;
+        Path p = Paths.get(path);
+        if (exist(p) && Files.isDirectory(p)) {
+            return false;
+        }
+        if (charset == null) {
+            charset = StandardCharsets.UTF_8;
+        }
+        if (!append)
+            return writeAllText(p, text, charset);
+        try {
+            Files.write(p, text, charset, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.APPEND);
+            return true;
+        } catch (IOException exception) {
+            return false;
+        }
+    }
+
+    /**
+     * write bytes to path sync (for small size of file)
+     *
+     * @param path
+     * @param bytes
+     * @return
+     */
+    public static boolean writeAllBytes(String path, byte[] bytes) {
+        if (StringExtends.isBlank(path))
+            return false;
+        Path p = Paths.get(path);
+        if (exist(path) && Files.isDirectory(p)) {
+            return false;
+        }
+
+        try {
+            Files.write(p, bytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.SYNC);
+            return true;
+        } catch (IOException exception) {
+            return false;
+        }
+    }
+
+    /**
+     * write bytes to path sync (for small size of file)
+     *
+     * @param path
+     * @param bytes
+     * @return
+     */
+    public static boolean writeAllBytesAsync(String path, byte[] bytes) {
+        if (StringExtends.isBlank(path))
+            return false;
+        Path p = Paths.get(path);
+        if (exist(path) && Files.isDirectory(p)) {
+            return false;
+        }
+
+        try {
+            Files.write(p, bytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+            return true;
+        } catch (IOException exception) {
+            return false;
+        }
+    }
+
+    /**
+     * append bytes to path sync (for small size of file)
+     *
+     * @param path
+     * @param bytes
+     * @param append
+     * @return
+     */
+    public static boolean writeAllBytes(String path, byte[] bytes, boolean append) {
+        if (StringExtends.isBlank(path))
+            return false;
+        Path p = Paths.get(path);
+        if (exist(p) && Files.isDirectory(p)) {
+            return false;
+        }
+        if (!append)
+            return writeAllBytes(p, bytes);
+        try {
+            Files.write(p, bytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.APPEND, StandardOpenOption.SYNC);
+            return true;
+        } catch (IOException exception) {
+            return false;
+        }
+    }
+
+    /**
+     * append bytes to path async (for small size of file)
+     *
+     * @param path
+     * @param bytes
+     * @param append
+     * @return
+     */
+    public static boolean writeAllBytesAsync(String path, byte[] bytes, boolean append) {
+        if (StringExtends.isBlank(path))
+            return false;
+        Path p = Paths.get(path);
+        if (exist(p) && Files.isDirectory(p)) {
+            return false;
+        }
+        if (!append)
+            return writeAllBytes(p, bytes);
+        try {
+            Files.write(p, bytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.APPEND);
+            return true;
+        } catch (IOException exception) {
+            return false;
+        }
+    }
+
+    /**
+     * read text from path width charset (for small size of file)
+     *
+     * @param path
+     * @param charset
+     * @return
+     */
+    public static List<String> readAllText(Path path, Charset charset) {
+        if (!exist(path) || Files.isDirectory(path)) {
+            return null;
+        }
+        if (charset == null) {
+            charset = StandardCharsets.UTF_8;
+        }
+        try {
+            return Files.readAllLines(path, charset);
+        } catch (IOException exception) {
+            return null;
+        }
+    }
+
+    /**
+     * read text from path width charset (for small size of file)
+     *
+     * @param path
+     * @param charset
+     * @return
+     */
+    public static List<String> readAllText(String path, Charset charset) {
+        if (StringExtends.isBlank(path))
+            return null;
+        Path p = Paths.get(path);
+        if (!exist(p) || Files.isDirectory(p)) {
+            return null;
+        }
+        return readAllText(p, charset);
+    }
+
+    /**
+     * read bytes from path width charset (for small size of file)
+     *
+     * @param path
+     * @return
+     */
+    public static byte[] readAllBytes(Path path) {
+        if (!exist(path) || Files.isDirectory(path)) {
+            return null;
+        }
+        try {
             return Files.readAllBytes(path);
         } catch (IOException exception) {
             return null;
         }
     }
 
-    public static byte[] readAllBytes(String path){
-        if(StringExtends.isBlank(path))
+    /**
+     * read bytes from path width charset (for small size of file)
+     *
+     * @param path
+     * @return
+     */
+    public static byte[] readAllBytes(String path) {
+        if (StringExtends.isBlank(path))
             return null;
         Path p = Paths.get(path);
-        if(!exist(p) || Files.isDirectory(p)){
+        if (!exist(p) || Files.isDirectory(p)) {
             return null;
         }
         return readAllBytes(p);
     }
 
 
-    public static boolean move(Path source, Path target){
-        if(!exist(source) || exist(target)){
+    public static boolean move(Path source, Path target) {
+        if (!exist(source) || exist(target)) {
             return false;
         }
         try {
-            Files.move(source,target, StandardCopyOption.COPY_ATTRIBUTES);
+            Files.move(source, target, StandardCopyOption.COPY_ATTRIBUTES);
             return true;
         } catch (IOException exception) {
             return false;
         }
     }
 
-    public static boolean move(Path source, Path target, boolean override){
-        if(!exist(source) || exist(target)){
+    public static boolean move(Path source, Path target, boolean override) {
+        if (!exist(source) || exist(target)) {
             return false;
         }
-        if(!override){
-            return move(source,target);
+        if (!override) {
+            return move(source, target);
         }
         try {
-            Files.move(source,target, StandardCopyOption.COPY_ATTRIBUTES,StandardCopyOption.REPLACE_EXISTING);
+            Files.move(source, target, StandardCopyOption.COPY_ATTRIBUTES, StandardCopyOption.REPLACE_EXISTING);
             return true;
         } catch (IOException exception) {
             return false;
         }
     }
 
-    public static boolean move(String source, String target){
-        if(StringExtends.isBlank(source) || StringExtends.isBlank(target)){
+    public static boolean move(String source, String target) {
+        if (StringExtends.isBlank(source) || StringExtends.isBlank(target)) {
             return false;
         }
         Path sourcePath = Paths.get(source);
         Path targetPath = Paths.get(target);
-        if(!exist(sourcePath) || exist(targetPath)){
+        if (!exist(sourcePath) || exist(targetPath)) {
             return false;
         }
         try {
-            Files.move(sourcePath,targetPath, StandardCopyOption.COPY_ATTRIBUTES);
+            Files.move(sourcePath, targetPath, StandardCopyOption.COPY_ATTRIBUTES);
             return true;
         } catch (IOException exception) {
             return false;
         }
     }
 
-    public static boolean move(String source, String target, boolean override){
-        if(StringExtends.isBlank(source) || StringExtends.isBlank(target)){
+    public static boolean move(String source, String target, boolean override) {
+        if (StringExtends.isBlank(source) || StringExtends.isBlank(target)) {
             return false;
         }
         Path sourcePath = Paths.get(source);
         Path targetPath = Paths.get(target);
-        if(!exist(sourcePath)){
+        if (!exist(sourcePath)) {
             return false;
         }
-        if(!override){
-            return move(sourcePath,targetPath);
+        if (!override) {
+            return move(sourcePath, targetPath);
         }
         try {
-            Files.move(sourcePath,targetPath, StandardCopyOption.COPY_ATTRIBUTES,StandardCopyOption.REPLACE_EXISTING);
+            Files.move(sourcePath, targetPath, StandardCopyOption.COPY_ATTRIBUTES, StandardCopyOption.REPLACE_EXISTING);
             return true;
         } catch (IOException exception) {
             return false;
         }
     }
 
-    public static  boolean copy(Path source, Path target){
-        if(!exist(source) || !exist(target)){
+    public static boolean copy(Path source, Path target) {
+        if (!exist(source) || !exist(target)) {
             return false;
         }
         try {
-            Files.copy(source,target, StandardCopyOption.COPY_ATTRIBUTES);
+            Files.copy(source, target, StandardCopyOption.COPY_ATTRIBUTES);
             return true;
         } catch (IOException exception) {
             return false;
         }
     }
 
-    public  static boolean copy(Path source, Path target, boolean override){
-        if(!exist(source) || !exist(target)){
+    public static boolean copy(Path source, Path target, boolean override) {
+        if (!exist(source) || !exist(target)) {
             return false;
         }
-        if(!override){
-            return copy(source,target);
+        if (!override) {
+            return copy(source, target);
         }
         try {
-            Files.copy(source,target, StandardCopyOption.COPY_ATTRIBUTES,StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(source, target, StandardCopyOption.COPY_ATTRIBUTES, StandardCopyOption.REPLACE_EXISTING);
             return true;
         } catch (IOException exception) {
             return false;
         }
     }
 
-    public static  boolean copy(String source, String target){
-        if(StringExtends.isBlank(source) || StringExtends.isBlank(target)){
+    public static boolean copy(String source, String target) {
+        if (StringExtends.isBlank(source) || StringExtends.isBlank(target)) {
             return false;
         }
         Path sourcePath = Paths.get(source);
         Path targetPath = Paths.get(target);
-        if(!exist(sourcePath) || !exist(targetPath)){
+        if (!exist(sourcePath) || !exist(targetPath)) {
             return false;
         }
         try {
-            Files.copy(sourcePath,targetPath, StandardCopyOption.COPY_ATTRIBUTES);
+            Files.copy(sourcePath, targetPath, StandardCopyOption.COPY_ATTRIBUTES);
             return true;
         } catch (IOException exception) {
             return false;
@@ -300,25 +707,26 @@ public class FileUtils {
 
     /**
      * 复制
+     *
      * @param source
      * @param target
      * @param override
      * @return
      */
-    public  static boolean copy(String source, String target, boolean override){
-        if(StringExtends.isBlank(source) || StringExtends.isBlank(target)){
+    public static boolean copy(String source, String target, boolean override) {
+        if (StringExtends.isBlank(source) || StringExtends.isBlank(target)) {
             return false;
         }
         Path sourcePath = Paths.get(source);
         Path targetPath = Paths.get(target);
-        if(!exist(sourcePath) || !exist(targetPath)){
+        if (!exist(sourcePath) || !exist(targetPath)) {
             return false;
         }
-        if(!override){
-            return copy(sourcePath,targetPath);
+        if (!override) {
+            return copy(sourcePath, targetPath);
         }
         try {
-            Files.copy(sourcePath,targetPath, StandardCopyOption.COPY_ATTRIBUTES,StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(sourcePath, targetPath, StandardCopyOption.COPY_ATTRIBUTES, StandardCopyOption.REPLACE_EXISTING);
             return true;
         } catch (IOException exception) {
             return false;
@@ -327,6 +735,7 @@ public class FileUtils {
 
     /**
      * 获取子目录
+     *
      * @param path
      * @return
      */
@@ -353,6 +762,7 @@ public class FileUtils {
 
     /**
      * 获取子目录
+     *
      * @param path
      * @return
      */
@@ -367,6 +777,7 @@ public class FileUtils {
 
     /**
      * 获取子目录
+     *
      * @param path
      * @return
      */
@@ -393,6 +804,7 @@ public class FileUtils {
 
     /**
      * 获取子目录
+     *
      * @param path
      * @return
      */
