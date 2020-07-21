@@ -7,8 +7,4 @@ public class SystemUtils {
 
     public static final String SEPARATOR = FileSystems.getDefault().getSeparator();
 
-    public void a(){
-
-    }
-
 }

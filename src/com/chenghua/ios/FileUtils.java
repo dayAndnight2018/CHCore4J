@@ -1,9 +1,8 @@
 package com.chenghua.ios;
-
 import com.chenghua.extendslite.StringExtends;
-
 import java.io.*;
 import java.lang.reflect.Array;
+import java.nio.channels.SeekableByteChannel;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
@@ -13,6 +12,202 @@ import java.util.List;
 
 public class FileUtils {
 
+
+    /**
+     * serialize object to stream
+     * @param data
+     * @param ops
+     * @return
+     * @throws IOException
+     */
+    public static boolean serializeToStream(Object data, OutputStream ops) throws IOException {
+        if(data == null){
+            return false;
+        }
+        try (ObjectOutputStream oos = new ObjectOutputStream(ops)) {
+            oos.writeObject(data);
+            return true;
+        }
+    }
+
+    /**
+     * serialize object to file
+     * @param data
+     * @param path
+     * @return
+     * @throws IOException
+     */
+    public static boolean serializeToFile(Object data, Path path) throws IOException {
+        if (!exist(path) || Files.isDirectory(path)) {
+            return false;
+        }
+        try (OutputStream ops = openWriteStream(path);
+             ObjectOutputStream oos = new ObjectOutputStream(ops)) {
+            oos.writeObject(data);
+            return true;
+        }
+    }
+
+    /**
+     * serialize object to file
+     * @param data
+     * @param path
+     * @return
+     * @throws IOException
+     */
+    public static boolean serializeToFile(Object data, String path) throws IOException {
+        if (StringExtends.isBlank(path))
+            return false;
+        Path p = Paths.get(path);
+
+        return  serializeToFile(data,p);
+    }
+
+    /**
+     * deserialize object  from stream
+     * @param ins
+     * @param <T>
+     * @return
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    public static <T> T deserializeFromStream(InputStream ins) throws IOException, ClassNotFoundException {
+        try (ObjectInputStream ois = new ObjectInputStream(ins)) {
+            return (T) ois.readObject();
+        }
+    }
+
+    /**
+     * deserialize object  from file
+     * @param path
+     * @param <T>
+     * @return
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    public static <T> T  deserializeFromFile(Path path) throws IOException, ClassNotFoundException {
+        if (!exist(path) || Files.isDirectory(path)) {
+            return null;
+        }
+        try (InputStream ins = openReadStream(path);
+             ObjectInputStream ois = new ObjectInputStream(ins)) {
+            return (T) ois.readObject();
+        }
+    }
+
+    /**
+     * deserialize object  from file
+     * @param path
+     * @param <T>
+     * @return
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    public static <T> T  deserializeFromFile(String path) throws IOException, ClassNotFoundException {
+        if (StringExtends.isBlank(path))
+            return null;
+        Path p = Paths.get(path);
+
+        return  deserializeFromFile(p);
+    }
+
+    /**
+     * random read
+     * @param path
+     * @return
+     */
+    public static SeekableByteChannel openReadByteBuffer(Path path) {
+        if (!exist(path) || Files.isDirectory(path)) {
+            return null;
+        }
+        try {
+            SeekableByteChannel sbc = Files.newByteChannel(path, StandardOpenOption.READ);
+            return sbc;
+        } catch (IOException exception) {
+            return null;
+        }
+    }
+
+    /**
+     * random read
+     * @param path
+     * @return
+     */
+    public static SeekableByteChannel openReadByteBuffer(String path) {
+        if (StringExtends.isBlank(path))
+            return null;
+        Path p = Paths.get(path);
+        return openReadByteBuffer(p);
+    }
+
+    /**
+     * random write
+     * @param path
+     * @return
+     */
+    public static SeekableByteChannel openWriteByteBuffer(Path path) {
+        if (exist(path) && Files.isDirectory(path)) {
+            return null;
+        }
+        try {
+            SeekableByteChannel sbc = Files.newByteChannel(path, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.CREATE);
+            return sbc;
+        } catch (IOException exception) {
+            return null;
+        }
+    }
+
+    /**
+     * random write
+     * @param path
+     * @return
+     */
+    public static SeekableByteChannel openWriteByteBuffer(String path) {
+        if (StringExtends.isBlank(path))
+            return null;
+        Path p = Paths.get(path);
+        return openWriteByteBuffer(p);
+    }
+
+    /**
+     * random write
+     * @param path
+     * @param append
+     * @return
+     */
+    public static SeekableByteChannel openWriteByteBuffer(Path path, boolean append) {
+        if (exist(path) && Files.isDirectory(path)) {
+            return null;
+        }
+        if (!append)
+            return openWriteByteBuffer(path);
+        try {
+            SeekableByteChannel sbc = Files.newByteChannel(path, StandardOpenOption.WRITE, StandardOpenOption.APPEND, StandardOpenOption.CREATE);
+            return sbc;
+        } catch (IOException exception) {
+            return null;
+        }
+    }
+
+    /**
+     * random write
+     * @param path
+     * @param append
+     * @return
+     */
+    public static SeekableByteChannel openWriteByteBuffer(String path, boolean append) {
+        if (StringExtends.isBlank(path))
+            return null;
+        Path p = Paths.get(path);
+        return openWriteByteBuffer(p, append);
+    }
+
+    /**
+     * open character reader
+     * @param path
+     * @param charset
+     * @return
+     */
     public static BufferedReader openReader(Path path, Charset charset) {
         if (!exist(path) || Files.isDirectory(path)) {
             return null;
@@ -28,14 +223,24 @@ public class FileUtils {
         }
     }
 
+    /**
+     * open character reader
+     * @param path
+     * @param charset
+     * @return
+     */
     public static BufferedReader openReader(String path, Charset charset) {
         if (StringExtends.isBlank(path))
             return null;
         Path p = Paths.get(path);
-        return openReader(p,charset);
+        return openReader(p, charset);
     }
 
-
+    /**
+     * open character writer
+     * @param path
+     * @return
+     */
     public static BufferedWriter openWriter(Path path) {
         if (!exist(path) || Files.isDirectory(path)) {
             return null;
@@ -49,6 +254,12 @@ public class FileUtils {
         }
     }
 
+    /**
+     * open character writer
+     * @param path
+     * @param append
+     * @return
+     */
     public static BufferedWriter openWriter(Path path, boolean append) {
         if (!exist(path) || Files.isDirectory(path)) {
             return null;
@@ -63,6 +274,11 @@ public class FileUtils {
         }
     }
 
+    /**
+     * open character writer
+     * @param path
+     * @return
+     */
     public static BufferedWriter openWriter(String path) {
         if (StringExtends.isBlank(path))
             return null;
@@ -70,6 +286,12 @@ public class FileUtils {
         return openWriter(p);
     }
 
+    /**
+     * open character writer
+     * @param path
+     * @param append
+     * @return
+     */
     public static BufferedWriter openWriter(String path, boolean append) {
         if (StringExtends.isBlank(path))
             return null;
@@ -77,7 +299,11 @@ public class FileUtils {
         return openWriter(p, append);
     }
 
-
+    /**
+     * open byte read stream
+     * @param path
+     * @return
+     */
     public static InputStream openReadStream(Path path) {
         if (!exist(path) || Files.isDirectory(path)) {
             return null;
@@ -91,6 +317,11 @@ public class FileUtils {
         }
     }
 
+    /**
+     *  open byte read stream
+     * @param path
+     * @return
+     */
     public static InputStream openReadStream(String path) {
         if (StringExtends.isBlank(path))
             return null;
@@ -98,6 +329,11 @@ public class FileUtils {
         return openReadStream(p);
     }
 
+    /**
+     *  open byte write stream
+     * @param path
+     * @return
+     */
     public static OutputStream openWriteStream(Path path) {
         if (exist(path) && Files.isDirectory(path)) {
             return null;
@@ -111,6 +347,11 @@ public class FileUtils {
         }
     }
 
+    /**
+     * open byte write stream
+     * @param path
+     * @return
+     */
     public static OutputStream openWriteStream(String path) {
         if (StringExtends.isBlank(path))
             return null;
@@ -118,6 +359,12 @@ public class FileUtils {
         return openWriteStream(p);
     }
 
+    /**
+     * open byte write stream
+     * @param path
+     * @param append
+     * @return
+     */
     public static OutputStream openWriteStream(Path path, boolean append) {
         if (exist(path) && Files.isDirectory(path)) {
             return null;
@@ -132,6 +379,12 @@ public class FileUtils {
         }
     }
 
+    /**
+     * open byte write stream
+     * @param path
+     * @param append
+     * @return
+     */
     public static OutputStream openWriteStream(String path, boolean append) {
         if (StringExtends.isBlank(path))
             return null;

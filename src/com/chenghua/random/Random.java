@@ -18,7 +18,7 @@ public class Random {
             throw new InvalidInputException();
         }
         java.util.Random random = new java.util.Random();
-        return min + random.nextInt(max - min);
+        return min + random.nextInt(max - min + 1);
     }
 
     /**
