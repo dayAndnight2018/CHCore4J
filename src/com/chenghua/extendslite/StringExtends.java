@@ -15,6 +15,15 @@ public class StringExtends
 	public static boolean isBlank(String string) {
 		return string == null || string.trim().isEmpty();
 	}
+
+	/**
+	 * judge is not blank
+	 * @param s
+	 * @return
+	 */
+	public static boolean isNotBlank(String s){
+		return !isBlank(s);
+	}
 	
 	/**
 	 * subString extends
@@ -132,6 +141,24 @@ public class StringExtends
 			throw new InvalidInputException();
 		}		
 		return String.format("%." + digits + "f", source);
+	}
+
+	/**
+	 * if test in str
+	 * @param test
+	 * @param str
+	 * @return
+	 */
+	public static boolean isSubStringOf(String test, String str){
+		if(isBlank(str)){
+			return false;
+		}
+
+		if(isBlank(test)){
+			return true;
+		}
+
+		return (str.indexOf(test)!= -1);
 	}
 	
 	
