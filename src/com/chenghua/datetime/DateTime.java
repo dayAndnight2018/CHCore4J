@@ -229,6 +229,17 @@ public class DateTime {
         this.dayOfWeek = date.getDay() == 0 ? 7 : date.getDay();
     }
 
+    public DateTime(Date date) {
+        this.date = date;
+        this.year = date.getYear() + 1900;
+        this.month = date.getMonth() + 1;
+        this.day = date.getDate();
+        this.hour = date.getHours();
+        this.minute = date.getMinutes();
+        this.second = date.getSeconds();
+        this.dayOfWeek = date.getDay() == 0 ? 7 : date.getDay();
+    }
+
     @SuppressWarnings("deprecation")
     public DateTime(int year, int month, int day) throws InvalidConstructorArgs {
         this(year, month, day, 0, 0, 0);
@@ -285,6 +296,13 @@ public class DateTime {
         this.second = second;
         this.dayOfWeek = date.getDay() == 0 ? 7 : date.getDay();
     }
+
+    public DateTime yesterday() throws InvalidInputException {
+        TimeSpan span = new TimeSpan();
+        span.set(TimeSpanParamEnum.DAY,1);
+        return new DateTime(new Date(this.date.getTime() - span.TotalMilliSeconds()));
+    }
+
 
     /**
      * get current time
@@ -479,184 +497,19 @@ public class DateTime {
             throw new InvalidInputException();
         }
 
-        DateTime date = this.copy();
-        int minute = 0;
-        if (timeSpan.getSecond() > 0) {
-            minute = (date.getSecond() + timeSpan.getSecond()) / 60;
-            date.setSecond((date.getSecond() + timeSpan.getSecond()) % 60);
-        }
-
-        int hour = 0;
-        if (minute > 0 || timeSpan.getMinute() > 0) {
-            hour = (date.getMinute() + timeSpan.getMinute() + minute) / 60;
-            date.setMinute((date.getMinute() + timeSpan.getMinute() + minute) % 60);
-        }
-
-        int day = 0;
-        if (hour > 0 || timeSpan.getHour() > 0) {
-            day = (date.getHour() + timeSpan.getHour() + hour) / 24;
-            date.setHour((date.getHour() + timeSpan.getHour() + hour) % 24);
-        }
-
-        int[] days = new int[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-        if (days[date.getMonth() - 1] > (date.getDay() + timeSpan.getDay() + day)) {
-            date.setDay((date.getDay() + timeSpan.getDay() + day));
-            date.setMonth((date.getMonth() + timeSpan.getMonth()) % 12 == 0 ? 12
-                    : (date.getMonth() + timeSpan.getMonth()) % 12);
-            date.setYear((date.getYear() + timeSpan.getYear() + (date.getMonth() + timeSpan.getMonth()) / 12));
-        } else {
-            int totalDays = timeSpan.getDay() + day;
-            int pointer = date.getMonth() - 1;
-            while (totalDays > 0) {
-
-                if (totalDays + date.getDay() > days[pointer]) {
-
-                    totalDays -= (days[pointer] - date.getDay() + 1);
-                    date.setDay(1);
-
-                    pointer++;
-                    if (pointer == 12) {
-                        date.setMonth(1);
-                        date.setYear(date.getYear() + 1);
-                        days[1] = date.getYear() % 400 == 0 || date.getYear() % 4 == 0 ? 29 : 28;
-                        pointer = 0;
-                    } else {
-                        date.setMonth(pointer + 1);
-                    }
-
-                } else {
-                    date.setDay(date.getDay() + totalDays);
-                    totalDays = 0;
-                    int month = date.getMonth() + timeSpan.getMonth();
-                    if (month % 12 == 0) {
-                        date.setMonth(1);
-                    } else {
-                        date.setMonth(month % 12);
-                    }
-                    date.setYear(date.getYear() + timeSpan.getYear() + month / 12);
-                }
-            }
-        }
-        return date;
+        return new DateTime(new Date(this.date.getTime()+timeSpan.TotalMilliSeconds()));
     }
 
     /**
      * add a certain timespan over this
      */
-    public DateTime minus(TimeSpan timeSpan) throws InvalidConstructorArgs, InvalidInputException {
+    private DateTime minus(TimeSpan timeSpan) throws InvalidConstructorArgs, InvalidInputException {
 
         if (timeSpan == null ||timeSpan.invalid()) {
             throw new InvalidInputException();
         }
 
-        DateTime date = this.copy();
-
-        int minute = 0;
-
-        int second = timeSpan.getSecond() % 60;
-        if (date.getSecond() - second >= 0) {
-
-            minute = timeSpan.getMinute() + timeSpan.getSecond() / 60;
-            date.setSecond(date.getSecond() - second);
-
-        } else {
-
-            minute = timeSpan.getMinute() + timeSpan.getSecond() / 60 + 1;
-            date.setSecond(date.getSecond() + 60 - second);
-
-        }
-
-        int hour = 0;
-
-        int realMinute = minute % 60;
-        if (date.getMinute() - realMinute >= 0) {
-
-            hour = timeSpan.getHour() + minute / 60;
-            date.setMinute(date.getMinute() - realMinute);
-
-        } else {
-
-            hour = timeSpan.getHour() + minute / 60 + 1;
-            date.setMinute(date.getMinute() + 60 - realMinute);
-
-        }
-
-        int day = 0;
-
-        int realHour = hour % 24;
-        if (date.getHour() - realHour >= 0) {
-
-            day = timeSpan.getDay() + hour / 24;
-            date.setHour(date.getHour() - realHour);
-
-        } else {
-            day = timeSpan.getDay() + hour / 24 + 1;
-            date.setHour(date.getHour() + 24 - realHour);
-        }
-
-        int[] days = new int[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-        if (date.getDay() > day) {
-
-            date.setDay((date.getDay() - day));
-
-            int realMonth = timeSpan.getMonth() % 12;
-            int year = 0;
-            if (date.getMonth() - realMonth > 0) {
-
-                year = timeSpan.getMonth() / 12 + timeSpan.getYear();
-                date.setMonth(date.getMonth() - realMonth);
-
-            } else {
-
-                year = timeSpan.getMonth() / 12 + timeSpan.getYear() + 1;
-                date.setMonth(date.getMonth() + 12 - realMonth);
-            }
-            date.setYear(date.getYear() - year);
-
-        } else {
-
-            int totalDays = day;
-            int pointer = date.getMonth() - 1;
-            while (totalDays > 0) {
-
-                if (date.getDay() <= totalDays) {
-
-                    pointer--;
-                    if (pointer == -1) {
-                        date.setMonth(12);
-                        date.setYear(date.getYear() - 1);
-                        days[1] = date.getYear() % 400 == 0 || date.getYear() % 4 == 0 ? 29 : 28;
-                        pointer = 11;
-                    } else {
-                        date.setMonth(pointer - 1);
-                    }
-
-                    date.setDay(days[pointer]);
-                    totalDays -= date.getDay();
-
-                } else {
-                    date.setDay(date.getDay() - totalDays);
-                    totalDays = 0;
-
-                    int realMonth = timeSpan.getMonth() % 12;
-                    int year = 0;
-                    if (date.getMonth() - realMonth > 0) {
-
-                        year = timeSpan.getMonth() / 12 + timeSpan.getYear();
-                        date.setMonth(date.getMonth() - realMonth);
-
-                    } else {
-
-                        year = timeSpan.getMonth() / 12 + timeSpan.getYear() + 1;
-                        date.setMonth(date.getMonth() + 12 - realMonth);
-                    }
-                    date.setYear(date.getYear() - year);
-
-                }
-            }
-        }
-
-        return date;
+        return new DateTime(new Date(this.date.getTime() - timeSpan.TotalMilliSeconds()));
     }
 
     /**
@@ -731,12 +584,12 @@ public class DateTime {
         TimeSpan span = new TimeSpan();
         if (year >= 0){
             span.set(TimeSpanParamEnum.YEAR, year);
+            return this.copy().add(span);
         }
         else{
             span.set(TimeSpanParamEnum.YEAR, 0-year);
-            return this.copy().add(span);
+            return this.copy().minus(span);
         }
-        return this.copy().add(span);
     }
 
     /**
@@ -751,12 +604,12 @@ public class DateTime {
         TimeSpan span = new TimeSpan();
         if (month >= 0){
             span.set(TimeSpanParamEnum.MONTH, month);
+            return this.copy().add(span);
         }
         else{
             span.set(TimeSpanParamEnum.MONTH, 0-month);
-            return this.copy().add(span);
+            return this.copy().minus(span);
         }
-        return this.copy().add(span);
     }
 
     /**
@@ -771,12 +624,12 @@ public class DateTime {
         TimeSpan span = new TimeSpan();
         if (day >= 0){
             span.set(TimeSpanParamEnum.DAY, day);
+            return this.copy().add(span);
         }
         else{
             span.set(TimeSpanParamEnum.DAY, 0-day);
-            return this.copy().add(span);
+            return this.copy().minus(span);
         }
-        return this.copy().add(span);
     }
 
     /**
@@ -791,12 +644,12 @@ public class DateTime {
         TimeSpan span = new TimeSpan();
         if (hour >= 0){
             span.set(TimeSpanParamEnum.HOUR, hour);
+            return this.copy().add(span);
         }
         else{
             span.set(TimeSpanParamEnum.HOUR, 0-hour);
-            return this.copy().add(span);
+            return this.copy().minus(span);
         }
-        return this.copy().add(span);
     }
 
     /**
@@ -810,12 +663,12 @@ public class DateTime {
         TimeSpan span = new TimeSpan();
         if (minute >= 0){
             span.set(TimeSpanParamEnum.MINUTE, minute);
+            return this.copy().add(span);
         }
         else{
             span.set(TimeSpanParamEnum.MINUTE, 0-minute);
-            return this.copy().add(span);
+            return this.copy().minus(span);
         }
-        return this.copy().add(span);
     }
 
     /**
@@ -829,12 +682,12 @@ public class DateTime {
         TimeSpan span = new TimeSpan();
         if (second >= 0){
             span.set(TimeSpanParamEnum.SECOND, second);
+            return this.copy().add(span);
         }
         else{
             span.set(TimeSpanParamEnum.SECOND, 0-second);
-            return this.copy().add(span);
+            return this.copy().minus(span);
         }
-        return this.copy().add(span);
     }
 
     /**

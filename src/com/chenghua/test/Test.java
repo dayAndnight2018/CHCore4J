@@ -1,6 +1,7 @@
 package com.chenghua.test;
 
 import com.chenghua.collections.ArrayUtils;
+import com.chenghua.datetime.TimeSpan;
 import com.chenghua.exceptions.CollectionNullOrEmptyException;
 import com.chenghua.exceptions.InvalidConstructorArgs;
 import com.chenghua.exceptions.InvalidInputException;
@@ -22,16 +23,11 @@ public class Test {
 
 	public static void main(String[] args) throws InvalidInputException, InvalidConstructorArgs, CollectionNullOrEmptyException, IOException {
 		// TODO Auto-generated method stub
-		//DateTime dateTime = new DateTime();
-		//dateTime.setMinute(0);
-		//System.out.println(dateTime.description2());
+		DateTime dateTime = new DateTime();
+		dateTime.setDay(1);
+		System.out.println(dateTime);
+		System.out.println(dateTime.addDays(-31));
 		//System.out.println(dateTime.format(DateFormatPatternEnum.SHORT_TIME));
-
-		InputStream stream  = FileUtils.openReadStream(Paths.get("/Users/dxm/Documents/temp.txt"));
-		System.out.println(new String(stream.readAllBytes(), StandardCharsets.UTF_8));
-
-
-		stream.close();
 	}
 
 }
