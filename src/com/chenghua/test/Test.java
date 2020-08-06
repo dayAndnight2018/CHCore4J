@@ -1,7 +1,9 @@
 package com.chenghua.test;
 
+import com.chenghua.beans.AssertUtils;
 import com.chenghua.collections.ArrayUtils;
 import com.chenghua.datetime.TimeSpan;
+import com.chenghua.encrypt.EraseUtils;
 import com.chenghua.exceptions.CollectionNullOrEmptyException;
 import com.chenghua.exceptions.InvalidConstructorArgs;
 import com.chenghua.exceptions.InvalidInputException;
@@ -23,10 +25,7 @@ public class Test {
 
 	public static void main(String[] args) throws InvalidInputException, InvalidConstructorArgs, CollectionNullOrEmptyException, IOException {
 		// TODO Auto-generated method stub
-		DateTime dateTime = new DateTime();
-		dateTime.setDay(1);
-		System.out.println(dateTime);
-		System.out.println(dateTime.addDays(-31));
+		
 		//System.out.println(dateTime.format(DateFormatPatternEnum.SHORT_TIME));
 	}
 
