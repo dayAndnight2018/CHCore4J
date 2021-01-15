@@ -1,5 +1,6 @@
 package com.chenghua.collections;
 
+import com.chenghua.beans.AssertUtils;
 import com.chenghua.exceptions.CollectionNullOrEmptyException;
 import com.chenghua.extendslite.StringUtils;
 
@@ -12,16 +13,18 @@ public class ArrayUtils {
 
     /**
      * judge if an array is not null and not empty
+     *
      * @param array
      * @param <T>
      * @return
      */
     public static <T> boolean notBlank(T[] array) {
-        return array != null && array.length != 0;
+        return AssertUtils.notNull(array) && array.length > 0;
     }
 
     /**
      * judge if an array is null or empty
+     *
      * @param array
      * @param <T>
      * @return
@@ -32,6 +35,7 @@ public class ArrayUtils {
 
     /**
      * judge if the ele is in the array
+     *
      * @param ele
      * @param array
      * @param <T>
@@ -41,36 +45,27 @@ public class ArrayUtils {
         if (nullOrEmpty(array)) {
             return false;
         }
-        if (ele == null) {
-            return true;
-        }
-
-        return Arrays.stream(array).anyMatch((T temp) -> {
-            return ele.equals(temp);
-        });
+        return Arrays.asList(array).contains(ele);
     }
 
     /**
      * judge if any element in judge is in total
      *
-     * @param judge
+     * @param partial
      * @param total
      * @param <T>
      * @return
      */
-    public static <T> boolean anyMatch(T[] judge, T[] total) {
+    public static <T> boolean anyMatch(T[] partial, T[] total) {
         if (nullOrEmpty(total)) {
             return false;
         }
-        if (nullOrEmpty(judge)) {
+        if (nullOrEmpty(partial)) {
             return true;
         }
-
         Stream<T> stream = Arrays.stream(total);
-        for (T temp : judge) {
-            if (stream.anyMatch((T t) -> {
-                return temp.equals(t);
-            })) {
+        for (T temp : partial) {
+            if (stream.anyMatch(temp::equals)) {
                 return true;
             }
         }
@@ -93,7 +88,7 @@ public class ArrayUtils {
             return true;
         }
         for (T temp : judge) {
-            if(!anyMatch(temp, total)){
+            if (!anyMatch(temp, total)) {
                 return false;
             }
         }

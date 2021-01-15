@@ -1,4 +1,5 @@
 package com.chenghua.datetime;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -299,7 +300,7 @@ public class DateTime {
 
     public DateTime yesterday() throws InvalidInputException {
         TimeSpan span = new TimeSpan();
-        span.set(TimeSpanParamEnum.DAY,1);
+        span.set(TimeSpanParamEnum.DAY, 1);
         return new DateTime(new Date(this.date.getTime() - span.TotalMilliSeconds()));
     }
 
@@ -344,6 +345,7 @@ public class DateTime {
 
     /**
      * if this late than obj
+     *
      * @param date
      * @return
      */
@@ -353,6 +355,7 @@ public class DateTime {
 
     /**
      * if this before than obj
+     *
      * @param date
      * @return
      */
@@ -362,6 +365,7 @@ public class DateTime {
 
     /**
      * override equals method
+     *
      * @param date
      * @return
      */
@@ -372,6 +376,7 @@ public class DateTime {
 
     /**
      * offer chinese desc of this "现在"、"过去"、"将来"
+     *
      * @return
      */
     public String description() {
@@ -387,6 +392,7 @@ public class DateTime {
 
     /**
      * offer chinese desc of this "xxx分钟前"
+     *
      * @return
      */
     public String description2() {
@@ -424,6 +430,7 @@ public class DateTime {
 
     /**
      * offer String desc of dayofweek "星期一"
+     *
      * @return
      */
     public String dayOfWeek() {
@@ -449,6 +456,7 @@ public class DateTime {
 
     /**
      * offer english desc of dayofweek "Monday"
+     *
      * @return
      */
     public String dayOfWeek2() {
@@ -493,11 +501,11 @@ public class DateTime {
      */
     public DateTime add(TimeSpan timeSpan) throws InvalidConstructorArgs, InvalidInputException {
 
-        if (timeSpan == null ||timeSpan.invalid()) {
+        if (timeSpan == null || timeSpan.invalid()) {
             throw new InvalidInputException();
         }
 
-        return new DateTime(new Date(this.date.getTime()+timeSpan.TotalMilliSeconds()));
+        return new DateTime(new Date(this.date.getTime() + timeSpan.TotalMilliSeconds()));
     }
 
     /**
@@ -505,7 +513,7 @@ public class DateTime {
      */
     private DateTime minus(TimeSpan timeSpan) throws InvalidConstructorArgs, InvalidInputException {
 
-        if (timeSpan == null ||timeSpan.invalid()) {
+        if (timeSpan == null || timeSpan.invalid()) {
             throw new InvalidInputException();
         }
 
@@ -514,6 +522,7 @@ public class DateTime {
 
     /**
      * get a timespan result of two datetime diff
+     *
      * @param date
      * @return
      */
@@ -582,12 +591,11 @@ public class DateTime {
      */
     public DateTime addYears(int year) throws InvalidConstructorArgs, InvalidInputException {
         TimeSpan span = new TimeSpan();
-        if (year >= 0){
+        if (year >= 0) {
             span.set(TimeSpanParamEnum.YEAR, year);
             return this.copy().add(span);
-        }
-        else{
-            span.set(TimeSpanParamEnum.YEAR, 0-year);
+        } else {
+            span.set(TimeSpanParamEnum.YEAR, 0 - year);
             return this.copy().minus(span);
         }
     }
@@ -602,12 +610,11 @@ public class DateTime {
      */
     public DateTime addMonths(int month) throws InvalidConstructorArgs, InvalidInputException {
         TimeSpan span = new TimeSpan();
-        if (month >= 0){
+        if (month >= 0) {
             span.set(TimeSpanParamEnum.MONTH, month);
             return this.copy().add(span);
-        }
-        else{
-            span.set(TimeSpanParamEnum.MONTH, 0-month);
+        } else {
+            span.set(TimeSpanParamEnum.MONTH, 0 - month);
             return this.copy().minus(span);
         }
     }
@@ -622,12 +629,11 @@ public class DateTime {
      */
     public DateTime addDays(int day) throws InvalidConstructorArgs, InvalidInputException {
         TimeSpan span = new TimeSpan();
-        if (day >= 0){
+        if (day >= 0) {
             span.set(TimeSpanParamEnum.DAY, day);
             return this.copy().add(span);
-        }
-        else{
-            span.set(TimeSpanParamEnum.DAY, 0-day);
+        } else {
+            span.set(TimeSpanParamEnum.DAY, 0 - day);
             return this.copy().minus(span);
         }
     }
@@ -642,18 +648,18 @@ public class DateTime {
      */
     public DateTime addHours(int hour) throws InvalidConstructorArgs, InvalidInputException {
         TimeSpan span = new TimeSpan();
-        if (hour >= 0){
+        if (hour >= 0) {
             span.set(TimeSpanParamEnum.HOUR, hour);
             return this.copy().add(span);
-        }
-        else{
-            span.set(TimeSpanParamEnum.HOUR, 0-hour);
+        } else {
+            span.set(TimeSpanParamEnum.HOUR, 0 - hour);
             return this.copy().minus(span);
         }
     }
 
     /**
      * add minutes over this
+     *
      * @param minute
      * @return
      * @throws InvalidConstructorArgs
@@ -661,18 +667,18 @@ public class DateTime {
      */
     public DateTime addMinutes(int minute) throws InvalidConstructorArgs, InvalidInputException {
         TimeSpan span = new TimeSpan();
-        if (minute >= 0){
+        if (minute >= 0) {
             span.set(TimeSpanParamEnum.MINUTE, minute);
             return this.copy().add(span);
-        }
-        else{
-            span.set(TimeSpanParamEnum.MINUTE, 0-minute);
+        } else {
+            span.set(TimeSpanParamEnum.MINUTE, 0 - minute);
             return this.copy().minus(span);
         }
     }
 
     /**
      * add seconds over this
+     *
      * @param second
      * @return
      * @throws InvalidConstructorArgs
@@ -680,18 +686,18 @@ public class DateTime {
      */
     public DateTime addSeconds(int second) throws InvalidConstructorArgs, InvalidInputException {
         TimeSpan span = new TimeSpan();
-        if (second >= 0){
+        if (second >= 0) {
             span.set(TimeSpanParamEnum.SECOND, second);
             return this.copy().add(span);
-        }
-        else{
-            span.set(TimeSpanParamEnum.SECOND, 0-second);
+        } else {
+            span.set(TimeSpanParamEnum.SECOND, 0 - second);
             return this.copy().minus(span);
         }
     }
 
     /**
      * get total days of this month
+     *
      * @param month
      * @return
      * @throws InvalidInputException

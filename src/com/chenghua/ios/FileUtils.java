@@ -1,5 +1,8 @@
 package com.chenghua.ios;
+
+import com.chenghua.exceptions.InvalidInputException;
 import com.chenghua.extendslite.StringUtils;
+
 import java.io.*;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.charset.Charset;
@@ -14,14 +17,15 @@ public class FileUtils {
 
     /**
      * serialize object to stream
+     *
      * @param data
      * @param ops
      * @return
      * @throws IOException
      */
-    public static boolean serializeToStream(Object data, OutputStream ops) throws IOException {
-        if(data == null){
-            return false;
+    public static boolean serializeToStream(Object data, OutputStream ops) throws IOException, InvalidInputException {
+        if (data == null || ops == null) {
+            throw new InvalidInputException();
         }
         try (ObjectOutputStream oos = new ObjectOutputStream(ops)) {
             oos.writeObject(data);
@@ -31,14 +35,15 @@ public class FileUtils {
 
     /**
      * serialize object to file
+     *
      * @param data
      * @param path
      * @return
      * @throws IOException
      */
-    public static boolean serializeToFile(Object data, Path path) throws IOException {
-        if (!exist(path) || Files.isDirectory(path)) {
-            return false;
+    public static boolean serializeToFile(Object data, Path path) throws IOException, InvalidInputException {
+        if (data == null || !exist(path) || Files.isDirectory(path)) {
+            throw new InvalidInputException();
         }
         try (OutputStream ops = openWriteStream(path);
              ObjectOutputStream oos = new ObjectOutputStream(ops)) {
@@ -49,28 +54,33 @@ public class FileUtils {
 
     /**
      * serialize object to file
+     *
      * @param data
      * @param path
      * @return
      * @throws IOException
      */
-    public static boolean serializeToFile(Object data, String path) throws IOException {
-        if (StringUtils.isBlank(path))
-            return false;
-        Path p = Paths.get(path);
+    public static boolean serializeToFile(Object data, String path) throws IOException, InvalidInputException {
+        if (StringUtils.isBlank(path)) {
+            throw new InvalidInputException();
+        }
 
-        return  serializeToFile(data,p);
+        return serializeToFile(data, Paths.get(path));
     }
 
     /**
      * deserialize object  from stream
+     *
      * @param ins
      * @param <T>
      * @return
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public static <T> T deserializeFromStream(InputStream ins) throws IOException, ClassNotFoundException {
+    public static <T> T deserializeFromStream(InputStream ins) throws IOException, ClassNotFoundException, InvalidInputException {
+        if(ins == null){
+            throw new InvalidInputException();
+        }
         try (ObjectInputStream ois = new ObjectInputStream(ins)) {
             return (T) ois.readObject();
         }
@@ -78,13 +88,14 @@ public class FileUtils {
 
     /**
      * deserialize object  from file
+     *
      * @param path
      * @param <T>
      * @return
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public static <T> T  deserializeFromFile(Path path) throws IOException, ClassNotFoundException {
+    public static <T> T deserializeFromFile(Path path) throws IOException, ClassNotFoundException {
         if (!exist(path) || Files.isDirectory(path)) {
             return null;
         }
@@ -96,22 +107,24 @@ public class FileUtils {
 
     /**
      * deserialize object  from file
+     *
      * @param path
      * @param <T>
      * @return
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public static <T> T  deserializeFromFile(String path) throws IOException, ClassNotFoundException {
+    public static <T> T deserializeFromFile(String path) throws IOException, ClassNotFoundException {
         if (StringUtils.isBlank(path))
             return null;
         Path p = Paths.get(path);
 
-        return  deserializeFromFile(p);
+        return deserializeFromFile(p);
     }
 
     /**
      * random read
+     *
      * @param path
      * @return
      */
@@ -129,6 +142,7 @@ public class FileUtils {
 
     /**
      * random read
+     *
      * @param path
      * @return
      */
@@ -141,6 +155,7 @@ public class FileUtils {
 
     /**
      * random write
+     *
      * @param path
      * @return
      */
@@ -158,6 +173,7 @@ public class FileUtils {
 
     /**
      * random write
+     *
      * @param path
      * @return
      */
@@ -170,6 +186,7 @@ public class FileUtils {
 
     /**
      * random write
+     *
      * @param path
      * @param append
      * @return
@@ -190,6 +207,7 @@ public class FileUtils {
 
     /**
      * random write
+     *
      * @param path
      * @param append
      * @return
@@ -203,6 +221,7 @@ public class FileUtils {
 
     /**
      * open character reader
+     *
      * @param path
      * @param charset
      * @return
@@ -224,6 +243,7 @@ public class FileUtils {
 
     /**
      * open character reader
+     *
      * @param path
      * @param charset
      * @return
@@ -237,6 +257,7 @@ public class FileUtils {
 
     /**
      * open character writer
+     *
      * @param path
      * @return
      */
@@ -255,6 +276,7 @@ public class FileUtils {
 
     /**
      * open character writer
+     *
      * @param path
      * @param append
      * @return
@@ -275,6 +297,7 @@ public class FileUtils {
 
     /**
      * open character writer
+     *
      * @param path
      * @return
      */
@@ -287,6 +310,7 @@ public class FileUtils {
 
     /**
      * open character writer
+     *
      * @param path
      * @param append
      * @return
@@ -300,6 +324,7 @@ public class FileUtils {
 
     /**
      * open byte read stream
+     *
      * @param path
      * @return
      */
@@ -316,7 +341,8 @@ public class FileUtils {
     }
 
     /**
-     *  open byte read stream
+     * open byte read stream
+     *
      * @param path
      * @return
      */
@@ -328,7 +354,8 @@ public class FileUtils {
     }
 
     /**
-     *  open byte write stream
+     * open byte write stream
+     *
      * @param path
      * @return
      */
@@ -346,6 +373,7 @@ public class FileUtils {
 
     /**
      * open byte write stream
+     *
      * @param path
      * @return
      */
@@ -358,6 +386,7 @@ public class FileUtils {
 
     /**
      * open byte write stream
+     *
      * @param path
      * @param append
      * @return
@@ -377,6 +406,7 @@ public class FileUtils {
 
     /**
      * open byte write stream
+     *
      * @param path
      * @param append
      * @return
