@@ -5,6 +5,7 @@ import com.chenghua.collections.ArrayUtils;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.function.Predicate;
 
 public class BeanUtils {
 
@@ -34,5 +35,12 @@ public class BeanUtils {
             result = defaultVal;
         }
         return result;
+    }
+
+    public static <T> T defaultValue(T source, T defaultVal, Predicate<T> predicate) {
+        if(predicate.test(source)){
+            return source;
+        }
+        return defaultVal;
     }
 }
