@@ -1,10 +1,9 @@
 package com.chenghua.collections;
 
 import com.chenghua.exceptions.CollectionNullOrEmptyException;
-import com.chenghua.extendslite.StringExtends;
+import com.chenghua.extendslite.StringUtils;
 
 import java.io.PrintStream;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -13,7 +12,6 @@ public class ArrayUtils {
 
     /**
      * judge if an array is not null and not empty
-     *
      * @param array
      * @param <T>
      * @return
@@ -24,7 +22,6 @@ public class ArrayUtils {
 
     /**
      * judge if an array is null or empty
-     *
      * @param array
      * @param <T>
      * @return
@@ -35,7 +32,6 @@ public class ArrayUtils {
 
     /**
      * judge if the ele is in the array
-     *
      * @param ele
      * @param array
      * @param <T>
@@ -96,7 +92,6 @@ public class ArrayUtils {
         if (nullOrEmpty(judge)) {
             return true;
         }
-
         for (T temp : judge) {
             if(!anyMatch(temp, total)){
                 return false;
@@ -116,11 +111,7 @@ public class ArrayUtils {
         if (nullOrEmpty(array)) {
             return null;
         }
-
         HashSet<T> set = new HashSet<T>(Arrays.asList(array));
-        if (set.size() == 0) {
-            return null;
-        }
         return (T[]) set.toArray();
     }
 
@@ -173,7 +164,7 @@ public class ArrayUtils {
     }
 
     public static <T> void print(T[] array, PrintStream stream, String splitter) throws CollectionNullOrEmptyException {
-        if (StringExtends.isBlank(splitter)) {
+        if (StringUtils.isBlank(splitter)) {
             print(array, stream);
         }
         if (notBlank(array)) {
@@ -186,7 +177,7 @@ public class ArrayUtils {
                 sb.append(array[i].toString());
                 if (i != array.length - 1) {
                     sb.append(splitter);
-                    sb.append(StringExtends.ONE_SPACE);
+                    sb.append(StringUtils.ONE_SPACE);
                 }
             }
             sb.append("]");

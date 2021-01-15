@@ -28,4 +28,12 @@ public class BeanUtils {
         }
         return true;
     }
+
+    public static <T> T defaultValue(T source, T defaultVal){
+        T result = source;
+        if(result == null){
+            result = defaultVal;
+        }
+        return result;
+    }
 }

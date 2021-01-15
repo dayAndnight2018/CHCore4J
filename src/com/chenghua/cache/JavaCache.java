@@ -4,10 +4,9 @@ import com.chenghua.collections.Tuple;
 import com.chenghua.datetime.DateTime;
 import com.chenghua.exceptions.InvalidConstructorArgs;
 import com.chenghua.exceptions.InvalidInputException;
-import com.chenghua.extendslite.StringExtends;
+import com.chenghua.extendslite.StringUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -111,7 +110,7 @@ public class JavaCache<T> implements CacheOperations<T> {
 
     @Override
     public boolean contains(String key) {
-        if (StringExtends.isBlank(key)) {
+        if (StringUtils.isBlank(key)) {
             return false;
         }
 

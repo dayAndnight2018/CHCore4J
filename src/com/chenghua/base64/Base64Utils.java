@@ -1,10 +1,13 @@
 package com.chenghua.base64;
-import com.chenghua.extendslite.StringExtends;
+import com.chenghua.beans.BeanUtils;
+import com.chenghua.extendslite.StringUtils;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 public class Base64Utils {
+
+    private static final Charset CHARSET_UTF8 = StandardCharsets.UTF_8;
 
     /**
      * encode String to base64
@@ -14,12 +17,10 @@ public class Base64Utils {
      * @return
      */
     public static String encode(String input, Charset charset) {
-        if (StringExtends.isBlank(input)) {
-            return null;
+        if (StringUtils.isBlank(input)) {
+            return StringUtils.EMPTY;
         }
-        if (charset == null) {
-            charset = StandardCharsets.UTF_8;
-        }
+        charset = BeanUtils.defaultValue(charset, CHARSET_UTF8);
         byte[] bytes = input.getBytes(charset);
         return Base64.getEncoder().encodeToString(bytes);
     }
@@ -31,14 +32,12 @@ public class Base64Utils {
      * @return
      */
     public static String decode(String input, Charset charset) {
-        if (StringExtends.isBlank(input)) {
-            return null;
+        if (StringUtils.isBlank(input)) {
+            return StringUtils.EMPTY;
         }
-        if (charset == null) {
-            charset = StandardCharsets.UTF_8;
-        }
+        charset = BeanUtils.defaultValue(charset, CHARSET_UTF8);
         byte[] bytes = input.getBytes(charset);
         byte[] after = Base64.getDecoder().decode(bytes);
-        return  new String(after,charset);
+        return new String(after, charset);
     }
 }

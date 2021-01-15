@@ -2,6 +2,7 @@ package com.chenghua.collections;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -97,16 +98,19 @@ public class CollectionUtils {
         collection.stream().forEach(System.out::println);
     }
 
+    /**
+     * get paged data
+     * @param collection source data
+     * @param page pageNum
+     * @param num pageSize
+     * @param <T>
+     * @return
+     */
     public static <T> List<T> page(Collection<T> collection, long page, long num) {
         Stream<T> stream = collection.stream();
 
         long size = stream.count();
-        long totalPage = 0;
-        if (size % num == 0) {
-            totalPage = size / num;
-        } else {
-            totalPage = size / num + 1;
-        }
+        long totalPage = size % num == 0 ? (size / num) :(size / num + 1);
 
         if (page > totalPage) {
             return null;

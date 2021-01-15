@@ -101,13 +101,13 @@ public class TimeSpan {
         if (param == null)
             throw new InvalidInputException("input can not be null");
         switch (param){
-            case YEAR -> {setYear(value);break;}
-            case MONTH -> {setMonth(value);break;}
-            case DAY -> {setDay(value);break;}
-            case HOUR -> {setHour(value);break;}
-            case MINUTE -> {setMinute(value);break;}
-            case SECOND -> {setSecond(value);break;}
-            default -> throw new InvalidInputException("invalid input");
+            case YEAR: {setYear(value);break;}
+            case MONTH : {setMonth(value);break;}
+            case DAY : {setDay(value);break;}
+            case HOUR : {setHour(value);break;}
+            case MINUTE : {setMinute(value);break;}
+            case SECOND : {setSecond(value);break;}
+            default : throw new InvalidInputException("invalid input");
         }
     }
 

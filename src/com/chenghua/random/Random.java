@@ -1,6 +1,8 @@
 package com.chenghua.random;
 import com.chenghua.exceptions.InvalidInputException;
 
+import java.security.SecureRandom;
+
 public class Random {
 
     private static final double PRECISE = 0.0000000001;
@@ -17,7 +19,7 @@ public class Random {
         if (min >= max) {
             throw new InvalidInputException();
         }
-        java.util.Random random = new java.util.Random();
+        SecureRandom random = new SecureRandom();
         return min + random.nextInt(max - min + 1);
     }
 
@@ -44,7 +46,7 @@ public class Random {
         if (min > max || max - min < PRECISE) {
             throw new InvalidInputException();
         }
-        java.util.Random random = new java.util.Random();
+        SecureRandom random = new SecureRandom();
         return min + random.nextDouble() * (max - min);
     }
 
@@ -71,7 +73,7 @@ public class Random {
         if (min >= max) {
             throw new InvalidInputException();
         }
-        java.util.Random random = new java.util.Random();
+        SecureRandom random = new SecureRandom();
         return min + (long) (random.nextDouble() * (max - min));
     }
 
@@ -98,7 +100,7 @@ public class Random {
         if (min > max || max - min < PRECISE) {
             throw new InvalidInputException();
         }
-        java.util.Random random = new java.util.Random();
+        SecureRandom random = new SecureRandom();
         return min + (float) (random.nextDouble() * (max - min));
     }
 

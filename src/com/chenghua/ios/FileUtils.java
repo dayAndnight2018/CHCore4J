@@ -1,7 +1,6 @@
 package com.chenghua.ios;
-import com.chenghua.extendslite.StringExtends;
+import com.chenghua.extendslite.StringUtils;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -56,7 +55,7 @@ public class FileUtils {
      * @throws IOException
      */
     public static boolean serializeToFile(Object data, String path) throws IOException {
-        if (StringExtends.isBlank(path))
+        if (StringUtils.isBlank(path))
             return false;
         Path p = Paths.get(path);
 
@@ -104,7 +103,7 @@ public class FileUtils {
      * @throws ClassNotFoundException
      */
     public static <T> T  deserializeFromFile(String path) throws IOException, ClassNotFoundException {
-        if (StringExtends.isBlank(path))
+        if (StringUtils.isBlank(path))
             return null;
         Path p = Paths.get(path);
 
@@ -134,7 +133,7 @@ public class FileUtils {
      * @return
      */
     public static SeekableByteChannel openReadByteBuffer(String path) {
-        if (StringExtends.isBlank(path))
+        if (StringUtils.isBlank(path))
             return null;
         Path p = Paths.get(path);
         return openReadByteBuffer(p);
@@ -163,7 +162,7 @@ public class FileUtils {
      * @return
      */
     public static SeekableByteChannel openWriteByteBuffer(String path) {
-        if (StringExtends.isBlank(path))
+        if (StringUtils.isBlank(path))
             return null;
         Path p = Paths.get(path);
         return openWriteByteBuffer(p);
@@ -196,7 +195,7 @@ public class FileUtils {
      * @return
      */
     public static SeekableByteChannel openWriteByteBuffer(String path, boolean append) {
-        if (StringExtends.isBlank(path))
+        if (StringUtils.isBlank(path))
             return null;
         Path p = Paths.get(path);
         return openWriteByteBuffer(p, append);
@@ -230,7 +229,7 @@ public class FileUtils {
      * @return
      */
     public static BufferedReader openReader(String path, Charset charset) {
-        if (StringExtends.isBlank(path))
+        if (StringUtils.isBlank(path))
             return null;
         Path p = Paths.get(path);
         return openReader(p, charset);
@@ -280,7 +279,7 @@ public class FileUtils {
      * @return
      */
     public static BufferedWriter openWriter(String path) {
-        if (StringExtends.isBlank(path))
+        if (StringUtils.isBlank(path))
             return null;
         Path p = Paths.get(path);
         return openWriter(p);
@@ -293,7 +292,7 @@ public class FileUtils {
      * @return
      */
     public static BufferedWriter openWriter(String path, boolean append) {
-        if (StringExtends.isBlank(path))
+        if (StringUtils.isBlank(path))
             return null;
         Path p = Paths.get(path);
         return openWriter(p, append);
@@ -310,8 +309,7 @@ public class FileUtils {
         }
 
         try {
-            InputStream ins = Files.newInputStream(path, StandardOpenOption.READ);
-            return ins;
+            return Files.newInputStream(path, StandardOpenOption.READ);
         } catch (IOException exception) {
             return null;
         }
@@ -323,7 +321,7 @@ public class FileUtils {
      * @return
      */
     public static InputStream openReadStream(String path) {
-        if (StringExtends.isBlank(path))
+        if (StringUtils.isBlank(path))
             return null;
         Path p = Paths.get(path);
         return openReadStream(p);
@@ -340,8 +338,7 @@ public class FileUtils {
         }
 
         try {
-            OutputStream ops = Files.newOutputStream(path, StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-            return ops;
+            return Files.newOutputStream(path, StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException exception) {
             return null;
         }
@@ -353,7 +350,7 @@ public class FileUtils {
      * @return
      */
     public static OutputStream openWriteStream(String path) {
-        if (StringExtends.isBlank(path))
+        if (StringUtils.isBlank(path))
             return null;
         Path p = Paths.get(path);
         return openWriteStream(p);
@@ -372,8 +369,7 @@ public class FileUtils {
         if (!append)
             return openWriteStream(path);
         try {
-            OutputStream ops = Files.newOutputStream(path, StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            return ops;
+            return Files.newOutputStream(path, StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
         } catch (IOException exception) {
             return null;
         }
@@ -386,7 +382,7 @@ public class FileUtils {
      * @return
      */
     public static OutputStream openWriteStream(String path, boolean append) {
-        if (StringExtends.isBlank(path))
+        if (StringUtils.isBlank(path))
             return null;
         Path p = Paths.get(path);
         return openWriteStream(p, append);
@@ -581,7 +577,7 @@ public class FileUtils {
      * @return
      */
     public static boolean writeAllText(String path, List<String> text, Charset charset) {
-        if (StringExtends.isBlank(path))
+        if (StringUtils.isBlank(path))
             return false;
         Path p = Paths.get(path);
         if (exist(p) && Files.isDirectory(p)) {
@@ -607,7 +603,7 @@ public class FileUtils {
      * @return
      */
     public static boolean writeAllTextAsync(String path, List<String> text, Charset charset) {
-        if (StringExtends.isBlank(path))
+        if (StringUtils.isBlank(path))
             return false;
         Path p = Paths.get(path);
         if (exist(p) && Files.isDirectory(p)) {
@@ -634,7 +630,7 @@ public class FileUtils {
      * @return
      */
     public static boolean writeAllText(String path, List<String> text, Charset charset, boolean append) {
-        if (StringExtends.isBlank(path))
+        if (StringUtils.isBlank(path))
             return false;
         Path p = Paths.get(path);
         if (exist(p) && Files.isDirectory(p)) {
@@ -663,7 +659,7 @@ public class FileUtils {
      * @return
      */
     public static boolean writeAllTextAsync(String path, List<String> text, Charset charset, boolean append) {
-        if (StringExtends.isBlank(path))
+        if (StringUtils.isBlank(path))
             return false;
         Path p = Paths.get(path);
         if (exist(p) && Files.isDirectory(p)) {
@@ -690,7 +686,7 @@ public class FileUtils {
      * @return
      */
     public static boolean writeAllBytes(String path, byte[] bytes) {
-        if (StringExtends.isBlank(path))
+        if (StringUtils.isBlank(path))
             return false;
         Path p = Paths.get(path);
         if (exist(path) && Files.isDirectory(p)) {
@@ -713,7 +709,7 @@ public class FileUtils {
      * @return
      */
     public static boolean writeAllBytesAsync(String path, byte[] bytes) {
-        if (StringExtends.isBlank(path))
+        if (StringUtils.isBlank(path))
             return false;
         Path p = Paths.get(path);
         if (exist(path) && Files.isDirectory(p)) {
@@ -737,7 +733,7 @@ public class FileUtils {
      * @return
      */
     public static boolean writeAllBytes(String path, byte[] bytes, boolean append) {
-        if (StringExtends.isBlank(path))
+        if (StringUtils.isBlank(path))
             return false;
         Path p = Paths.get(path);
         if (exist(p) && Files.isDirectory(p)) {
@@ -762,7 +758,7 @@ public class FileUtils {
      * @return
      */
     public static boolean writeAllBytesAsync(String path, byte[] bytes, boolean append) {
-        if (StringExtends.isBlank(path))
+        if (StringUtils.isBlank(path))
             return false;
         Path p = Paths.get(path);
         if (exist(p) && Files.isDirectory(p)) {
@@ -807,7 +803,7 @@ public class FileUtils {
      * @return
      */
     public static List<String> readAllText(String path, Charset charset) {
-        if (StringExtends.isBlank(path))
+        if (StringUtils.isBlank(path))
             return null;
         Path p = Paths.get(path);
         if (!exist(p) || Files.isDirectory(p)) {
@@ -840,7 +836,7 @@ public class FileUtils {
      * @return
      */
     public static byte[] readAllBytes(String path) {
-        if (StringExtends.isBlank(path))
+        if (StringUtils.isBlank(path))
             return null;
         Path p = Paths.get(path);
         if (!exist(p) || Files.isDirectory(p)) {
@@ -878,7 +874,7 @@ public class FileUtils {
     }
 
     public static boolean move(String source, String target) {
-        if (StringExtends.isBlank(source) || StringExtends.isBlank(target)) {
+        if (StringUtils.isBlank(source) || StringUtils.isBlank(target)) {
             return false;
         }
         Path sourcePath = Paths.get(source);
@@ -895,7 +891,7 @@ public class FileUtils {
     }
 
     public static boolean move(String source, String target, boolean override) {
-        if (StringExtends.isBlank(source) || StringExtends.isBlank(target)) {
+        if (StringUtils.isBlank(source) || StringUtils.isBlank(target)) {
             return false;
         }
         Path sourcePath = Paths.get(source);
@@ -942,7 +938,7 @@ public class FileUtils {
     }
 
     public static boolean copy(String source, String target) {
-        if (StringExtends.isBlank(source) || StringExtends.isBlank(target)) {
+        if (StringUtils.isBlank(source) || StringUtils.isBlank(target)) {
             return false;
         }
         Path sourcePath = Paths.get(source);
@@ -967,7 +963,7 @@ public class FileUtils {
      * @return
      */
     public static boolean copy(String source, String target, boolean override) {
-        if (StringExtends.isBlank(source) || StringExtends.isBlank(target)) {
+        if (StringUtils.isBlank(source) || StringUtils.isBlank(target)) {
             return false;
         }
         Path sourcePath = Paths.get(source);
@@ -1020,7 +1016,7 @@ public class FileUtils {
      * @return
      */
     public static String[] getFiles(String path) {
-        if (StringExtends.isBlank(path)) {
+        if (StringUtils.isBlank(path)) {
             return null;
         }
 
@@ -1062,7 +1058,7 @@ public class FileUtils {
      * @return
      */
     public static Path[] getFilesPath(String path) {
-        if (StringExtends.isBlank(path)) {
+        if (StringUtils.isBlank(path)) {
             return null;
         }
 
@@ -1077,12 +1073,12 @@ public class FileUtils {
      * @return
      */
     public static String getFileName(String path) {
-        if (StringExtends.isBlank(path)) {
-            return StringExtends.EMPTY;
+        if (StringUtils.isBlank(path)) {
+            return StringUtils.EMPTY;
         }
         Path p = Paths.get(path);
         if (!exist(p)) {
-            return StringExtends.EMPTY;
+            return StringUtils.EMPTY;
         }
         return p.getFileName().toString();
     }
@@ -1094,7 +1090,7 @@ public class FileUtils {
      * @return
      */
     public static Path getParentPath(String path) {
-        if (StringExtends.isBlank(path)) {
+        if (StringUtils.isBlank(path)) {
             return null;
         }
         Path p = Paths.get(path);
@@ -1111,7 +1107,7 @@ public class FileUtils {
      * @return
      */
     public static String getParent(String path) {
-        if (StringExtends.isBlank(path)) {
+        if (StringUtils.isBlank(path)) {
             return null;
         }
         Path p = Paths.get(path);
@@ -1128,7 +1124,7 @@ public class FileUtils {
      * @return
      */
     public static Path getRootPath(String path) {
-        if (StringExtends.isBlank(path)) {
+        if (StringUtils.isBlank(path)) {
             return null;
         }
         Path p = Paths.get(path);
@@ -1145,7 +1141,7 @@ public class FileUtils {
      * @return
      */
     public static String getRoot(String path) {
-        if (StringExtends.isBlank(path)) {
+        if (StringUtils.isBlank(path)) {
             return null;
         }
         Path p = Paths.get(path);
@@ -1170,7 +1166,7 @@ public class FileUtils {
     }
 
     public static boolean exist(String path) {
-        if (StringExtends.isBlank(path)) {
+        if (StringUtils.isBlank(path)) {
             return false;
         }
         Path p = Paths.get(path);
@@ -1214,7 +1210,7 @@ public class FileUtils {
      * @return
      */
     public static boolean create(String path) {
-        if (StringExtends.isBlank(path))
+        if (StringUtils.isBlank(path))
             return false;
         Path p = Paths.get(path);
         if (!exist(p)) {
@@ -1277,7 +1273,7 @@ public class FileUtils {
      * @return
      */
     public static boolean delete(String path) {
-        if (StringExtends.isBlank(path)) {
+        if (StringUtils.isBlank(path)) {
             return true;
         }
         Path p = Paths.get(path);

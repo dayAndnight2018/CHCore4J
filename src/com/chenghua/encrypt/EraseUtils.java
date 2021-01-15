@@ -1,9 +1,7 @@
 package com.chenghua.encrypt;
 
 import com.chenghua.exceptions.InvalidInputException;
-import com.chenghua.extendslite.StringExtends;
-
-import java.util.stream.Stream;
+import com.chenghua.extendslite.StringUtils;
 
 public class EraseUtils {
 
@@ -17,7 +15,7 @@ public class EraseUtils {
      * @throws InvalidInputException
      */
     public static String eraseLeft(String input, int len, Character c) throws InvalidInputException {
-        if (StringExtends.isBlank(input) || len < 0) {
+        if (StringUtils.isBlank(input) || len < 0) {
             throw new InvalidInputException();
         }
         if (len > input.length()) {
@@ -30,8 +28,8 @@ public class EraseUtils {
         for (int i = 0; i < len; i++) {
             sb.append(c);
         }
-        String temp = StringExtends.subString(input, len, input.length() - len);
-        if (StringExtends.isNotBlank(temp)) {
+        String temp = StringUtils.subString(input, len, input.length() - len);
+        if (StringUtils.isNotBlank(temp)) {
             sb.append(temp);
         }
         return sb.toString();
@@ -47,7 +45,7 @@ public class EraseUtils {
      * @throws InvalidInputException
      */
     public static String eraseRight(String input, int len, Character c) throws InvalidInputException {
-        if (StringExtends.isBlank(input) || len < 0) {
+        if (StringUtils.isBlank(input) || len < 0) {
             throw new InvalidInputException();
         }
         if (len > input.length()) {
@@ -60,8 +58,8 @@ public class EraseUtils {
         for (int i = input.length() - len; i < input.length(); i++) {
             sb.append(c);
         }
-        String temp = StringExtends.subString(input, 0, input.length() - len);
-        if (StringExtends.isNotBlank(temp)) {
+        String temp = StringUtils.subString(input, 0, input.length() - len);
+        if (StringUtils.isNotBlank(temp)) {
             sb.insert(0, temp);
         }
         return sb.toString();
@@ -78,7 +76,7 @@ public class EraseUtils {
      * @throws InvalidInputException
      */
     public static String erase(String input, int start, int len, Character c) throws InvalidInputException {
-        if (StringExtends.isBlank(input) || len < 0) {
+        if (StringUtils.isBlank(input) || len < 0) {
             throw new InvalidInputException();
         }
         if (start + len > input.length()) {
@@ -109,7 +107,7 @@ public class EraseUtils {
      * @throws InvalidInputException
      */
     public static String erasePhoneNumber(String input, Character c) throws InvalidInputException {
-        if (StringExtends.isBlank(input) || input.length() != 11) {
+        if (StringUtils.isBlank(input) || input.length() != 11) {
             throw new InvalidInputException();
         }
         if (c == null) {
@@ -120,7 +118,7 @@ public class EraseUtils {
 
 
     public static String eraseIdentityCardNumber(String input, Character c) throws InvalidInputException {
-        if (StringExtends.isBlank(input) || input.length() != 18) {
+        if (StringUtils.isBlank(input) || input.length() != 18) {
             throw new InvalidInputException();
         }
         if (c == null) {
