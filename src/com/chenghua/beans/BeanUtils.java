@@ -2,7 +2,6 @@ package com.chenghua.beans;
 
 import com.chenghua.collections.ArrayUtils;
 
-import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -29,9 +28,9 @@ public class BeanUtils {
         return true;
     }
 
-    public static <T> T defaultValue(T source, T defaultVal){
+    public static <T> T defaultValue(T source, T defaultVal) {
         T result = source;
-        if(result == null){
+        if (result == null) {
             result = defaultVal;
         }
         return result;
