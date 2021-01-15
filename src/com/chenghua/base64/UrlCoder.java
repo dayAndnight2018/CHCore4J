@@ -1,5 +1,6 @@
 package com.chenghua.base64;
 
+import com.chenghua.beans.BeanUtils;
 import com.chenghua.extendslite.StringUtils;
 
 import java.io.UnsupportedEncodingException;
@@ -10,8 +11,11 @@ import java.nio.charset.StandardCharsets;
 
 public class UrlCoder {
 
+    private static final Charset CHARSET_UTF8 = StandardCharsets.UTF_8;
+
     /**
      * encode a url
+     *
      * @param input
      * @param charset
      * @return
@@ -20,15 +24,13 @@ public class UrlCoder {
         if (StringUtils.isBlank(input)) {
             return null;
         }
-        if (charset == null) {
-            charset = StandardCharsets.UTF_8;
-        }
-
+        charset = BeanUtils.defaultValue(charset, CHARSET_UTF8);
         return URLEncoder.encode(input, charset.name());
     }
 
     /**
      * decode a url
+     *
      * @param input
      * @param charset
      * @return
@@ -37,10 +39,7 @@ public class UrlCoder {
         if (StringUtils.isBlank(input)) {
             return null;
         }
-        if (charset == null) {
-            charset = StandardCharsets.UTF_8;
-        }
-
+        charset = BeanUtils.defaultValue(charset, CHARSET_UTF8);
         return URLDecoder.decode(input, charset.name());
     }
 }
