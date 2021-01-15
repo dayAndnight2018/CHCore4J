@@ -5,6 +5,8 @@ import com.chenghua.exceptions.AssertFailedException;
 import com.chenghua.exceptions.AssertNotEqualsException;
 import com.chenghua.exceptions.AssertOneNullInputException;
 
+import java.util.Objects;
+
 public class AssertUtils {
 
     /**
@@ -15,19 +17,7 @@ public class AssertUtils {
      * @return
      */
     public static boolean equals(Object obj1, Object obj2) {
-        if (obj1 == null && obj2 == null) {
-            return true;
-        }
-
-        if (obj1 == null || obj2 == null) {
-            return false;
-        }
-
-        if (obj1.getClass() != obj2.getClass()) {
-            return false;
-        }
-
-        return obj1.equals(obj2);
+        return Objects.equals(obj1, obj2);
     }
 
     /**
@@ -39,26 +29,15 @@ public class AssertUtils {
      * @throws AssertClassNotMatchException
      * @throws AssertNotEqualsException
      */
-    public static void assertEquals(Object obj1, Object obj2) throws AssertOneNullInputException, AssertClassNotMatchException, AssertNotEqualsException {
-        if (obj1 == null && obj2 == null) {
-            return;
-        }
-
-        if (obj1 == null || obj2 == null) {
-            throw new AssertOneNullInputException();
-        }
-
-        if (obj1.getClass() != obj2.getClass()) {
-            throw new AssertClassNotMatchException();
-        }
-
-        if (!obj1.equals(obj2)) {
+    public static void assertEquals(Object obj1, Object obj2) throws AssertNotEqualsException {
+        if (!equals(obj1, obj2)) {
             throw new AssertNotEqualsException();
         }
     }
 
     /**
      * 不等
+     *
      * @param obj1
      * @param obj2
      * @return
@@ -69,6 +48,7 @@ public class AssertUtils {
 
     /**
      * 以抛出异常的方式确保不等
+     *
      * @param obj1
      * @param obj2
      * @throws AssertFailedException
@@ -81,6 +61,7 @@ public class AssertUtils {
 
     /**
      * 非空
+     *
      * @param obj
      * @return
      */
@@ -90,10 +71,11 @@ public class AssertUtils {
 
     /**
      * 以抛出异常的方式判断非空
+     *
      * @param obj
      */
     public static void assertNotNull(Object obj) {
-        if (obj == null){
+        if (obj == null) {
             throw new NullPointerException();
         }
     }
