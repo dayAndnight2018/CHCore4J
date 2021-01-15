@@ -1,6 +1,8 @@
 package com.chenghua.base64;
+
 import com.chenghua.beans.BeanUtils;
 import com.chenghua.extendslite.StringUtils;
+
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -21,12 +23,12 @@ public class Base64Utils {
             return StringUtils.EMPTY;
         }
         charset = BeanUtils.defaultValue(charset, CHARSET_UTF8);
-        byte[] bytes = input.getBytes(charset);
-        return Base64.getEncoder().encodeToString(bytes);
+        return Base64.getEncoder().encodeToString(input.getBytes(charset));
     }
 
     /**
      * decode from base64 strings
+     *
      * @param input
      * @param charset default utf-8
      * @return
@@ -36,8 +38,7 @@ public class Base64Utils {
             return StringUtils.EMPTY;
         }
         charset = BeanUtils.defaultValue(charset, CHARSET_UTF8);
-        byte[] bytes = input.getBytes(charset);
-        byte[] after = Base64.getDecoder().decode(bytes);
-        return new String(after, charset);
+        byte[] bytes = Base64.getDecoder().decode(input.getBytes(charset));
+        return new String(bytes, charset);
     }
 }
