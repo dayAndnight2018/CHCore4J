@@ -1,5 +1,6 @@
 package com.chenghua.encrypt;
 
+import com.chenghua.beans.BeanUtils;
 import com.chenghua.exceptions.InvalidInputException;
 import com.chenghua.extendslite.StringUtils;
 
@@ -21,9 +22,8 @@ public class EraseUtils {
         if (len > input.length()) {
             len = input.length();
         }
-        if (c == null) {
-            c = '*';
-        }
+
+        c = BeanUtils.defaultValue(c, '*');
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < len; i++) {
             sb.append(c);
@@ -51,9 +51,8 @@ public class EraseUtils {
         if (len > input.length()) {
             len = input.length();
         }
-        if (c == null) {
-            c = '*';
-        }
+
+        c = BeanUtils.defaultValue(c, '*');
         StringBuilder sb = new StringBuilder();
         for (int i = input.length() - len; i < input.length(); i++) {
             sb.append(c);
@@ -82,10 +81,8 @@ public class EraseUtils {
         if (start + len > input.length()) {
             len = input.length() - start;
         }
-        if (c == null) {
-            c = '*';
-        }
 
+        c = BeanUtils.defaultValue(c, '*');
         StringBuilder sb = new StringBuilder();
         char[] array = input.toCharArray();
         for (int i = 0; i < input.length(); i++) {
@@ -110,9 +107,8 @@ public class EraseUtils {
         if (StringUtils.isBlank(input) || input.length() != 11) {
             throw new InvalidInputException();
         }
-        if (c == null) {
-            c = '*';
-        }
+
+        c = BeanUtils.defaultValue(c, '*');
         return erase(input, 3, 4, null);
     }
 
@@ -121,9 +117,8 @@ public class EraseUtils {
         if (StringUtils.isBlank(input) || input.length() != 18) {
             throw new InvalidInputException();
         }
-        if (c == null) {
-            c = '*';
-        }
+
+        c = BeanUtils.defaultValue(c, '*');
         return erase(input, 6, 8, null);
     }
 }
