@@ -19,11 +19,10 @@ public class EraseUtils {
         if (StringUtils.isBlank(input) || len < 0) {
             throw new InvalidInputException();
         }
-        if (len > input.length()) {
-            len = input.length();
-        }
 
+        len = BeanUtils.defaultValue(len, input.length(), l->l>input.length());
         c = BeanUtils.defaultValue(c, '*');
+
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < len; i++) {
             sb.append(c);
@@ -48,10 +47,8 @@ public class EraseUtils {
         if (StringUtils.isBlank(input) || len < 0) {
             throw new InvalidInputException();
         }
-        if (len > input.length()) {
-            len = input.length();
-        }
 
+        len = BeanUtils.defaultValue(len, input.length(), l->l>input.length());
         c = BeanUtils.defaultValue(c, '*');
         StringBuilder sb = new StringBuilder();
         for (int i = input.length() - len; i < input.length(); i++) {

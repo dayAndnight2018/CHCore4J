@@ -4,7 +4,7 @@ import com.chenghua.exceptions.InvalidInputException;
 /**
  * DateTime formatter Enum
  */
-public enum DateFormatPatternEnum {
+public enum DateFormatPattern {
 
     SHORT_DATE("yyyy/MM"),
     LONG_DATE("yyyy/MM/dd"),
@@ -30,7 +30,7 @@ public enum DateFormatPatternEnum {
      * constructor
      * @param pattern
      */
-    DateFormatPatternEnum(String pattern){
+    DateFormatPattern(String pattern){
         this.pattern = pattern;
     }
 
@@ -40,13 +40,13 @@ public enum DateFormatPatternEnum {
      * @return
      * @throws InvalidInputException
      */
-    DateFormatPatternEnum parsePattern(String pattern) throws InvalidInputException {
-        DateFormatPatternEnum result = null;
+    DateFormatPattern parsePattern(String pattern) throws InvalidInputException {
+        DateFormatPattern result = null;
         if(pattern == null || pattern.trim().length() == 0){
             throw new InvalidInputException();
         }
 
-        for(DateFormatPatternEnum p : DateFormatPatternEnum.values()){
+        for(DateFormatPattern p : DateFormatPattern.values()){
             if(p.getPattern().equals(pattern)){
                 result = p;
                 break;

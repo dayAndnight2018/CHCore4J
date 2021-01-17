@@ -103,7 +103,7 @@ public class TimeSpan {
      * @param value
      * @throws InvalidInputException
      */
-    public void set(TimeSpanParamEnum param, int value) throws InvalidInputException {
+    public void set(TimeSpanParamType param, int value) throws InvalidInputException {
         if (param == null)
             throw new InvalidInputException("input can not be null");
         switch (param) {

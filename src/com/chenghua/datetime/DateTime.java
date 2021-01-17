@@ -300,7 +300,7 @@ public class DateTime {
 
     public DateTime yesterday() throws InvalidInputException {
         TimeSpan span = new TimeSpan();
-        span.set(TimeSpanParamEnum.DAY, 1);
+        span.set(TimeSpanParamType.DAY, 1);
         return new DateTime(new Date(this.date.getTime() - span.TotalMilliSeconds()));
     }
 
@@ -338,7 +338,7 @@ public class DateTime {
         return toString();
     }
 
-    public String format(DateFormatPatternEnum pattern) {
+    public String format(DateFormatPattern pattern) {
         SimpleDateFormat format = new SimpleDateFormat(pattern.getPattern());
         return format.format(this.date);
     }
@@ -592,10 +592,10 @@ public class DateTime {
     public DateTime addYears(int year) throws InvalidConstructorArgs, InvalidInputException {
         TimeSpan span = new TimeSpan();
         if (year >= 0) {
-            span.set(TimeSpanParamEnum.YEAR, year);
+            span.set(TimeSpanParamType.YEAR, year);
             return this.copy().add(span);
         } else {
-            span.set(TimeSpanParamEnum.YEAR, 0 - year);
+            span.set(TimeSpanParamType.YEAR, 0 - year);
             return this.copy().minus(span);
         }
     }
@@ -611,10 +611,10 @@ public class DateTime {
     public DateTime addMonths(int month) throws InvalidConstructorArgs, InvalidInputException {
         TimeSpan span = new TimeSpan();
         if (month >= 0) {
-            span.set(TimeSpanParamEnum.MONTH, month);
+            span.set(TimeSpanParamType.MONTH, month);
             return this.copy().add(span);
         } else {
-            span.set(TimeSpanParamEnum.MONTH, 0 - month);
+            span.set(TimeSpanParamType.MONTH, 0 - month);
             return this.copy().minus(span);
         }
     }
@@ -630,10 +630,10 @@ public class DateTime {
     public DateTime addDays(int day) throws InvalidConstructorArgs, InvalidInputException {
         TimeSpan span = new TimeSpan();
         if (day >= 0) {
-            span.set(TimeSpanParamEnum.DAY, day);
+            span.set(TimeSpanParamType.DAY, day);
             return this.copy().add(span);
         } else {
-            span.set(TimeSpanParamEnum.DAY, 0 - day);
+            span.set(TimeSpanParamType.DAY, 0 - day);
             return this.copy().minus(span);
         }
     }
@@ -649,10 +649,10 @@ public class DateTime {
     public DateTime addHours(int hour) throws InvalidConstructorArgs, InvalidInputException {
         TimeSpan span = new TimeSpan();
         if (hour >= 0) {
-            span.set(TimeSpanParamEnum.HOUR, hour);
+            span.set(TimeSpanParamType.HOUR, hour);
             return this.copy().add(span);
         } else {
-            span.set(TimeSpanParamEnum.HOUR, 0 - hour);
+            span.set(TimeSpanParamType.HOUR, 0 - hour);
             return this.copy().minus(span);
         }
     }
@@ -668,10 +668,10 @@ public class DateTime {
     public DateTime addMinutes(int minute) throws InvalidConstructorArgs, InvalidInputException {
         TimeSpan span = new TimeSpan();
         if (minute >= 0) {
-            span.set(TimeSpanParamEnum.MINUTE, minute);
+            span.set(TimeSpanParamType.MINUTE, minute);
             return this.copy().add(span);
         } else {
-            span.set(TimeSpanParamEnum.MINUTE, 0 - minute);
+            span.set(TimeSpanParamType.MINUTE, 0 - minute);
             return this.copy().minus(span);
         }
     }
@@ -687,10 +687,10 @@ public class DateTime {
     public DateTime addSeconds(int second) throws InvalidConstructorArgs, InvalidInputException {
         TimeSpan span = new TimeSpan();
         if (second >= 0) {
-            span.set(TimeSpanParamEnum.SECOND, second);
+            span.set(TimeSpanParamType.SECOND, second);
             return this.copy().add(span);
         } else {
-            span.set(TimeSpanParamEnum.SECOND, 0 - second);
+            span.set(TimeSpanParamType.SECOND, 0 - second);
             return this.copy().minus(span);
         }
     }
