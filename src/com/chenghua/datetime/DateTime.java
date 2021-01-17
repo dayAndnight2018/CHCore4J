@@ -103,7 +103,6 @@ public class DateTime {
             throw new InvalidInputException("The arguments are invalid.");
         }
 
-        this.day = day;
         switch (this.month) {
             case 1:
             case 3:
@@ -139,6 +138,7 @@ public class DateTime {
                 throw new InvalidInputException("The day of the month is invalid.");
         }
 
+        this.day = day;
         this.date.setDate(day);
         this.dayOfWeek = date.getDay() == 0 ? 7 : date.getDay();
     }
@@ -593,10 +593,10 @@ public class DateTime {
         TimeSpan span = new TimeSpan();
         if (year >= 0) {
             span.set(TimeSpanParamType.YEAR, year);
-            return this.copy().add(span);
+            return this.add(span);
         } else {
             span.set(TimeSpanParamType.YEAR, 0 - year);
-            return this.copy().minus(span);
+            return this.minus(span);
         }
     }
 
@@ -612,10 +612,10 @@ public class DateTime {
         TimeSpan span = new TimeSpan();
         if (month >= 0) {
             span.set(TimeSpanParamType.MONTH, month);
-            return this.copy().add(span);
+            return this.add(span);
         } else {
             span.set(TimeSpanParamType.MONTH, 0 - month);
-            return this.copy().minus(span);
+            return this.minus(span);
         }
     }
 
@@ -631,10 +631,10 @@ public class DateTime {
         TimeSpan span = new TimeSpan();
         if (day >= 0) {
             span.set(TimeSpanParamType.DAY, day);
-            return this.copy().add(span);
+            return this.add(span);
         } else {
             span.set(TimeSpanParamType.DAY, 0 - day);
-            return this.copy().minus(span);
+            return this.minus(span);
         }
     }
 
@@ -650,10 +650,10 @@ public class DateTime {
         TimeSpan span = new TimeSpan();
         if (hour >= 0) {
             span.set(TimeSpanParamType.HOUR, hour);
-            return this.copy().add(span);
+            return this.add(span);
         } else {
             span.set(TimeSpanParamType.HOUR, 0 - hour);
-            return this.copy().minus(span);
+            return this.minus(span);
         }
     }
 
@@ -669,10 +669,10 @@ public class DateTime {
         TimeSpan span = new TimeSpan();
         if (minute >= 0) {
             span.set(TimeSpanParamType.MINUTE, minute);
-            return this.copy().add(span);
+            return this.add(span);
         } else {
             span.set(TimeSpanParamType.MINUTE, 0 - minute);
-            return this.copy().minus(span);
+            return this.minus(span);
         }
     }
 
@@ -688,10 +688,10 @@ public class DateTime {
         TimeSpan span = new TimeSpan();
         if (second >= 0) {
             span.set(TimeSpanParamType.SECOND, second);
-            return this.copy().add(span);
+            return this.add(span);
         } else {
-            span.set(TimeSpanParamType.SECOND, 0 - second);
-            return this.copy().minus(span);
+            span.set(TimeSpanParamType.SECOND, -second);
+            return this.minus(span);
         }
     }
 
