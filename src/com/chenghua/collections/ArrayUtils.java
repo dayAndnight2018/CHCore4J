@@ -1,6 +1,7 @@
 package com.chenghua.collections;
 
 import com.chenghua.beans.AssertUtils;
+import com.chenghua.beans.BeanUtils;
 import com.chenghua.exceptions.CollectionNullOrEmptyException;
 import com.chenghua.extendslite.StringUtils;
 
@@ -149,9 +150,7 @@ public class ArrayUtils {
 
     public static <T> void print(T[] array, PrintStream stream) throws CollectionNullOrEmptyException {
         if (notBlank(array)) {
-            if (stream == null) {
-                stream = System.out;
-            }
+            stream = BeanUtils.defaultValue(stream, System.out);
             stream.println(Arrays.toString(array));
             return;
         }
@@ -163,9 +162,7 @@ public class ArrayUtils {
             print(array, stream);
         }
         if (notBlank(array)) {
-            if (stream == null) {
-                stream = System.out;
-            }
+            stream = BeanUtils.defaultValue(stream, System.out);
             StringBuilder sb = new StringBuilder();
             sb.append("[");
             for (int i = 0; i < array.length; i++) {
