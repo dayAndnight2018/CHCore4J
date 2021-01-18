@@ -1,9 +1,7 @@
 package com.chenghua.beans;
 
-import com.chenghua.exceptions.AssertClassNotMatchException;
 import com.chenghua.exceptions.AssertFailedException;
 import com.chenghua.exceptions.AssertNotEqualsException;
-import com.chenghua.exceptions.AssertOneNullInputException;
 
 import java.util.Objects;
 
@@ -25,8 +23,6 @@ public class AssertUtils {
      *
      * @param obj1
      * @param obj2
-     * @throws AssertOneNullInputException
-     * @throws AssertClassNotMatchException
      * @throws AssertNotEqualsException
      */
     public static void assertEquals(Object obj1, Object obj2) throws AssertNotEqualsException {

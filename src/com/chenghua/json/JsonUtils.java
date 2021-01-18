@@ -1,6 +1,5 @@
 package com.chenghua.json;
 import com.alibaba.fastjson.*;
-import com.alibaba.fastjson.serializer.JSONSerializer;
 
 public class JsonUtils<T> {
 

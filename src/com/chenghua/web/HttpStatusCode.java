@@ -26,17 +26,8 @@ public enum HttpStatusCode {
     public int getCode() {
         return code;
     }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
     public String getReasonPhrase() {
         return reasonPhrase;
-    }
-
-    public void setReasonPhrase(String reasonPhrase) {
-        this.reasonPhrase = reasonPhrase;
     }
 
     private int code;
