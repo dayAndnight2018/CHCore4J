@@ -12,11 +12,10 @@ public class Base64Utils {
     private static final Charset CHARSET_UTF8 = StandardCharsets.UTF_8;
 
     /**
-     * encode String to base64
-     *
-     * @param input
-     * @param charset default utf-8
-     * @return
+     * encode to base 64
+     * @param input source text
+     * @param charset charset (default utf-8)
+     * @return encoded text
      */
     public static String encode(String input, Charset charset) {
         if (StringUtils.isBlank(input)) {
@@ -27,11 +26,10 @@ public class Base64Utils {
     }
 
     /**
-     * decode from base64 strings
-     *
-     * @param input
-     * @param charset default utf-8
-     * @return
+     * decode base64
+     * @param input source text
+     * @param charset charset (default utf-8)
+     * @return decoded text
      */
     public static String decode(String input, Charset charset) {
         if (StringUtils.isBlank(input)) {
