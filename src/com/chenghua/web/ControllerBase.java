@@ -91,10 +91,10 @@ public abstract class ControllerBase {
     }
 
     protected HttpResponse serverUnavailable(Object data){
-        return new HttpResponse(HttpStatusCode.SERVER_UNAVAILABL, data);
+        return new HttpResponse(HttpStatusCode.SERVER_UNAVAILABLE, data);
     }
 
     protected HttpResponse serverUnavailable(String reasonPhrase, Object data){
-        return new HttpResponse(HttpStatusCode.SERVER_UNAVAILABL.getCode(), reasonPhrase, data);
+        return new HttpResponse(HttpStatusCode.SERVER_UNAVAILABLE.getCode(), reasonPhrase, data);
     }
 }

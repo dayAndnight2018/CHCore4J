@@ -16,7 +16,7 @@ public enum HttpStatusCode {
     METHOD_NOT_FOUND(405, "Method Not Allowed"),
 
     INTERNAL_SERVER_ERROR(500, "Internal Server Error"),
-    SERVER_UNAVAILABL(503, "Service Unavailable");
+    SERVER_UNAVAILABLE(503, "Service Unavailable");
 
     HttpStatusCode(int statusCode, String reason){
         code = statusCode;
