@@ -2,6 +2,9 @@ package com.chenghua.math;
 
 import java.util.Objects;
 
+/**
+ * 分数
+ */
 public class Fraction {
 
     /**
@@ -33,6 +36,14 @@ public class Fraction {
         this.denominator = denominator;
     }
 
+    public byte getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(byte symbol) {
+        this.symbol = symbol;
+    }
+
     public Fraction(int numerator, int denominator) {
         this(numerator, denominator, FractionSymbolEnum.POSITIVE);
     }
@@ -61,6 +72,10 @@ public class Fraction {
         this.numerator = numerator;
         this.denominator = 1;
         this.symbol = symbol.getCode();
+    }
+
+    public static Fraction valueOf(float floatVal, FractionSymbolEnum symbol){
+        return null;
     }
 
     @Override
@@ -125,6 +140,30 @@ public class Fraction {
     }
 
     /**
+     * 乘法
+     * @param other
+     * @return
+     */
+    public Fraction multiply(Fraction other){
+        int resultNumerator = this.getNumerator() * this.getSymbol() * other.getNumerator() * other.getSymbol();
+        int resultDenominator = this.getDenominator() * other.getDenominator();
+        FractionSymbolEnum symbol = resultNumerator >= 0 ? FractionSymbolEnum.POSITIVE : FractionSymbolEnum.NEGATIVE;
+        return new Fraction(Math.abs(resultNumerator), resultDenominator, symbol);
+    }
+
+    /**
+     * 除法
+     * @param other
+     * @return
+     */
+    public Fraction divided(Fraction other){
+        int resultNumerator = this.getNumerator() * this.getSymbol() * other.getDenominator() * other.getSymbol();
+        int resultDenominator = this.getDenominator() * other.getNumerator();
+        FractionSymbolEnum symbol = resultNumerator >= 0 ? FractionSymbolEnum.POSITIVE : FractionSymbolEnum.NEGATIVE;
+        return new Fraction(Math.abs(resultNumerator), resultDenominator, symbol);
+    }
+
+    /**
      * 最小公倍数
      * @param a
      * @param b
@@ -150,6 +189,8 @@ public class Fraction {
     }
 
     public static void main(String[] args) {
-        System.out.println(new Fraction(1, 1, FractionSymbolEnum.NEGATIVE).minus(new Fraction(1, 4, FractionSymbolEnum.POSITIVE)));
+        System.out.println(new Fraction(4, 7, FractionSymbolEnum.NEGATIVE).divided(new Fraction(7, 4, FractionSymbolEnum.POSITIVE)));
+        float a = 1.23f;
+        System.out.println(a);
     }
 }
