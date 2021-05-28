@@ -1,33 +1,33 @@
 package com.chenghua.collections;
 
-public class Tuple<U,V>{
+public class Tuple<U, V> {
 
     private U u;
     private V v;
 
-    public Tuple(){
+    public Tuple() {
         u = null;
         v = null;
     }
 
-    public Tuple(U u, V v){
+    public Tuple(U u, V v) {
         this.u = u;
         this.v = v;
     }
 
-    public U getKey(){
+    public U getKey() {
         return u;
     }
 
-    public V getValue(){
+    public V getValue() {
         return v;
     }
 
-    public void setKey(U u){
+    public void setKey(U u) {
         this.u = u;
     }
 
-    public void setValue(V v){
+    public void setValue(V v) {
         this.v = v;
     }
 

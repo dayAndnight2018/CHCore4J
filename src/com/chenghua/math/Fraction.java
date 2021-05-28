@@ -165,9 +165,9 @@ public class Fraction {
 
     /**
      * 最小公倍数
-     * @param a
-     * @param b
-     * @return
+     * @param a 入参a
+     * @param b 入参b
+     * @return 最小公倍数
      */
     private int calLCM(int a, int b) {
         return a * b / calGCD(a, b);
@@ -175,9 +175,9 @@ public class Fraction {
 
     /**
      * 最大公约数
-     * @param a
-     * @param b
-     * @return
+     * @param a 入参a
+     * @param b 入参b
+     * @return 最大公约数
      */
     private int calGCD(int a, int b) {
         int max = Math.max(a, b);
