@@ -1,20 +1,72 @@
 package com.chenghua.collections;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.*;
 
 public class CollectionUtils {
 
     /**
      * 返回空List
+     *
      * @param <T>
      * @return
      */
-    public static <T> List<T> newArrayList(){
+    public static <T> List<T> newArrayList() {
         return new ArrayList<>();
+    }
+
+    /**
+     * 返回空Set
+     *
+     * @param <T>
+     * @return
+     */
+    public static <T> Set<T> newHashSet() {
+        return new HashSet<>();
+    }
+
+    /**
+     * 返回空HashMap
+     *
+     * @param <U>
+     * @param <V>
+     * @return
+     */
+    public static <U, V> Map<U, V> newHashMap() {
+        return new HashMap<>();
+    }
+
+    /**
+     * 确保非空
+     *
+     * @param collection
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> insure(List<T> collection) {
+        return collection != null ? collection : newArrayList();
+    }
+
+    /**
+     * 确保非空
+     *
+     * @param collection
+     * @param <T>
+     * @return
+     */
+    public static <T> Set<T> insure(Set<T> collection) {
+        return collection != null ? collection : newHashSet();
+    }
+
+    /**
+     * 确保非空
+     *
+     * @param collection
+     * @param <U>
+     * @param <V>
+     * @return
+     */
+    public static <U, V> Map<U, V> insure(Map<U, V> collection) {
+        return collection != null ? collection : newHashMap();
     }
 
     /**
@@ -48,14 +100,7 @@ public class CollectionUtils {
      * @return
      */
     public static <T> boolean anyMatch(T ele, Collection<T> collection) {
-        if (nullOrEmpty(collection)) {
-            return false;
-        }
-        if (ele == null) {
-            return true;
-        }
-
-        return collection.contains(ele);
+        return !nullOrEmpty(collection) && collection.contains(ele);
     }
 
     /**
