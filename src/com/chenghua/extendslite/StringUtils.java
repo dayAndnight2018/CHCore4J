@@ -5,8 +5,12 @@ import java.util.Random;
 import com.chenghua.exceptions.InvalidInputException;
 
 public class StringUtils {
+
     public static final String EMPTY = "";
     public static final String ONE_SPACE = " ";
+    private static final String DIGIT = "0123456789";
+    private static final String LETTERS = "abcdefghighlmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static final String DIGIT_LETTERS = "0123456789abcdefghighlmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     /**
      * check string is null or whitespace
@@ -60,19 +64,7 @@ public class StringUtils {
      * @return random String
      */
     public static String randomDigitString(int len) throws InvalidInputException {
-        if (len <= 0) {
-            throw new InvalidInputException("The length of the String is below zero.");
-        }
-
-        StringBuilder sb = new StringBuilder();
-        String numbers = "0123456789";
-        int length = numbers.length();
-
-        Random rand = new Random();
-        for (int i = 0; i < len; i++) {
-            sb.append(numbers.charAt(rand.nextInt(length)));
-        }
-        return sb.toString();
+        return generate(DIGIT, len);
     }
 
     /**
@@ -83,19 +75,7 @@ public class StringUtils {
      * @throws InvalidInputException
      */
     public static String randomLetterString(int len) throws InvalidInputException {
-        if (len <= 0) {
-            throw new InvalidInputException("The length of the String is below zero.");
-        }
-
-        StringBuilder sb = new StringBuilder();
-        String numbers = "abcdefghighlmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        int length = numbers.length();
-
-        Random rand = new Random();
-        for (int i = 0; i < len; i++) {
-            sb.append(numbers.charAt(rand.nextInt(length)));
-        }
-        return sb.toString();
+        return generate(LETTERS, len);
     }
 
     /**
@@ -106,17 +86,18 @@ public class StringUtils {
      * @throws InvalidInputException
      */
     public static String randomString(int len) throws InvalidInputException {
+        return generate(DIGIT_LETTERS, len);
+    }
+
+    private static String generate(String pattern, int len) throws InvalidInputException {
         if (len <= 0) {
             throw new InvalidInputException("The length of the String is below zero.");
         }
 
         StringBuilder sb = new StringBuilder();
-        String numbers = "0123456789abcdefghighlmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        int length = numbers.length();
-
         Random rand = new Random();
         for (int i = 0; i < len; i++) {
-            sb.append(numbers.charAt(rand.nextInt(length)));
+            sb.append(pattern.charAt(rand.nextInt(pattern.length())));
         }
         return sb.toString();
     }
@@ -144,15 +125,7 @@ public class StringUtils {
      * @return
      */
     public static boolean isSubStringOf(String test, String str) {
-        if (isBlank(str)) {
-            return false;
-        }
-
-        if (isBlank(test)) {
-            return true;
-        }
-
-        return (str.contains(test));
+        return !isBlank(str) && (isBlank(test) || str.contains(test));
     }
 
 
