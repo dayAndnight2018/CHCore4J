@@ -1,11 +1,9 @@
 package com.chenghua.test;
 
-import com.chenghua.beans.BeanUtils;
-import com.chenghua.collections.Tuple;
 import com.chenghua.exceptions.CollectionNullOrEmptyException;
 import com.chenghua.exceptions.InvalidConstructorArgs;
 import com.chenghua.exceptions.InvalidInputException;
-import com.chenghua.system.SystemUtils;
+import com.chenghua.ios.PropertyUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,8 +21,8 @@ public class Test {
 //		FindFile(rootPath, result);
 //		CollectionUtils.print(result);
 
-		Tuple<Integer, Integer> tuple = new Tuple<>();
-		SystemUtils.println(tuple.getKey());
+		Properties properties = PropertyUtils.loadProperties("test.txt");
+		properties.list(System.out);
 	}
 
 	static void FindFile(String path, List<String> result){
