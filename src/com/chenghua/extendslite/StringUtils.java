@@ -8,6 +8,7 @@ public class StringUtils {
 
     public static final String EMPTY = "";
     public static final String ONE_SPACE = " ";
+
     private static final String DIGIT = "0123456789";
     private static final String LETTERS = "abcdefghighlmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private static final String DIGIT_LETTERS = "0123456789abcdefghighlmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -15,21 +16,21 @@ public class StringUtils {
     /**
      * check string is null or whitespace
      *
-     * @param string
+     * @param str
      * @return is null or whitespace
      */
-    public static boolean isBlank(String string) {
-        return string == null || string.trim().isEmpty();
+    public static boolean isBlank(String str) {
+        return str == null || str.trim().isEmpty();
     }
 
     /**
      * judge is not blank
      *
-     * @param s
+     * @param str
      * @return
      */
-    public static boolean isNotBlank(String s) {
-        return !isBlank(s);
+    public static boolean isNotBlank(String str) {
+        return !isBlank(str);
     }
 
     /**

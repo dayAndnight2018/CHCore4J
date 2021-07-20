@@ -3,7 +3,7 @@ package com.chenghua.test;
 import com.chenghua.exceptions.CollectionNullOrEmptyException;
 import com.chenghua.exceptions.InvalidConstructorArgs;
 import com.chenghua.exceptions.InvalidInputException;
-import com.chenghua.ios.PropertyUtils;
+import com.sun.istack.internal.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,13 +16,12 @@ public class Test {
 
 	public static void main(String[] args) throws InvalidInputException, InvalidConstructorArgs, CollectionNullOrEmptyException, IOException, InterruptedException {
 		// TODO Auto-generated method stub
-//		String rootPath = "/Users/dxm/code/payserver/robo-advisor/fund-payserver";
 //		List<String> result = new ArrayList<String>();
 //		FindFile(rootPath, result);
 //		CollectionUtils.print(result);
 
-		Properties properties = PropertyUtils.loadProperties("test.txt");
-		properties.list(System.out);
+//		Properties properties = PropertyUtils.loadProperties("test.txt");
+//		properties.list(System.out);
 	}
 
 	static void FindFile(String path, List<String> result){
