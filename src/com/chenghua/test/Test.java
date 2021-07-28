@@ -3,14 +3,14 @@ package com.chenghua.test;
 import com.chenghua.exceptions.CollectionNullOrEmptyException;
 import com.chenghua.exceptions.InvalidConstructorArgs;
 import com.chenghua.exceptions.InvalidInputException;
-import com.sun.istack.internal.Nullable;
+import com.chenghua.extendslite.OptionalString;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.List;
 
 public class Test {
 
@@ -22,6 +22,14 @@ public class Test {
 
 //		Properties properties = PropertyUtils.loadProperties("test.txt");
 //		properties.list(System.out);
+
+		OptionalString nullableString = new OptionalString(null);
+		nullableString.ifNotNull(System.out::println);
+
+		String s = null;
+		if (s != null) {
+			System.out.println(s);
+		}
 	}
 
 	static void FindFile(String path, List<String> result){

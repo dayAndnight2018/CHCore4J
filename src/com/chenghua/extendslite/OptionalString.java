@@ -3,14 +3,14 @@ package com.chenghua.extendslite;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class NullableString {
+public class OptionalString {
 
     /**
      * 底层值
      */
     private final String value;
 
-    public NullableString(String value) {
+    public OptionalString(String value) {
         this.value = value;
     }
 
